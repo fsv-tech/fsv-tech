@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" type="image/svg+xml" href="images/logo.svg"/>
+<link rel="alternate icon" href="images/logo.png"/>
+<title>Employee Sign In — FSV Tech</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: 'Inter', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+:root {
+  --teal:      #00b8a0;
+  --teal-dark: #009e8a;
+  --black:     #0a0a0a;
+  --surface:   rgba(255,255,255,0.045);
+  --border:    rgba(255,255,255,0.09);
+  --muted:     rgba(255,255,255,0.35);
+  --subtle:    rgba(255,255,255,0.18);
+  --error:     #ef4444;
+}
+
+/* ── Background ─────────────────────── */
+.bg { position: fixed; inset: 0; z-index: 0; background: var(--black); }
+.bg-grid {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+.bg-glow {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(ellipse 60% 55% at 50% 45%, rgba(0,184,160,.07) 0%, transparent 65%), radial-gradient(ellipse 35% 40% at 15% 80%, rgba(0,184,160,.04) 0%, transparent 60%);
+}
+canvas#particles { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: .45; }
+
+/* ── Layout ──────────────────────────── */
+.page { position: relative; z-index: 10; min-height: 100vh; display: grid; grid-template-columns: 1fr 480px; }
+
+/* ── Left panel ──────────────────────── */
+.left-panel { display: flex; flex-direction: column; justify-content: space-between; padding: 48px 56px; }
+.left-logo img { height: 38px; width: auto; filter: invert(1) brightness(.85); }
+.left-content { max-width: 440px; opacity: 0; animation: fadeUp .8s cubic-bezier(.16,1,.3,1) .15s forwards; }
+.left-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: .68rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px; }
+.left-eyebrow::before { content: ''; width: 22px; height: 1.5px; background: var(--teal); flex-shrink: 0; }
+.left-h { font-size: clamp(2rem,3.2vw,3rem); font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -.035em; margin-bottom: 16px; }
+.left-h em { font-style: normal; color: var(--teal); }
+.left-p { font-size: .9rem; line-height: 1.8; color: rgba(255,255,255,.38); max-width: 360px; }
+.left-footer { font-size: .72rem; color: var(--subtle); }
+.left-footer a { color: rgba(255,255,255,.3); text-decoration: none; transition: color .2s; }
+.left-footer a:hover { color: rgba(255,255,255,.6); }
+
+/* ── Right panel ─────────────────────── */
+.right-panel { display: flex; align-items: center; justify-content: center; padding: 40px 48px; border-left: 1px solid rgba(255,255,255,.04); background: rgba(255,255,255,.016); backdrop-filter: blur(24px); }
+
+/* ── Card ────────────────────────────── */
+.signin-card { width: 100%; max-width: 360px; opacity: 0; animation: fadeUp .8s cubic-bezier(.16,1,.3,1) .28s forwards; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.card-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,184,160,.08); border: 1px solid rgba(0,184,160,.2); border-radius: 20px; padding: 5px 14px 5px 10px; margin-bottom: 28px; }
+.card-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(1.6);} }
+.card-tag span { font-size: .66rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(0,184,160,.85); }
+.card-h { font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: -.03em; margin-bottom: 6px; }
+.card-sub { font-size: .82rem; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+
+/* ── Panel system ────────────────────── */
+.panel { display: none; }
+.panel.active { display: block; }
+.panel.active.flex-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+/* ── Base input — the autofill fix is the key part here ── */
+.fsv-input {
+  width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  color: rgba(255,255,255,.32); font-family: 'Inter', sans-serif; font-size: .9rem; padding: 13px 16px;
+  outline: none; -webkit-appearance: none; appearance: none;
+  -webkit-text-fill-color: rgba(255,255,255,.32); caret-color: #fff;
+  transition: border-color .2s, box-shadow .2s;
+}
+.fsv-input::placeholder { color: rgba(255,255,255,.18); }
+/* Once the user has typed something, text turns white */
+.fsv-input.has-value {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+.fsv-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,184,160,.12); }
+.fsv-input.err-border { border-color: var(--error); box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+
+/* Chrome/Safari autofill override — the ONLY reliable method */
+.fsv-input:-webkit-autofill,
+.fsv-input:-webkit-autofill:hover,
+.fsv-input:-webkit-autofill:focus,
+.fsv-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 100px #151515 inset !important;
+  -webkit-text-fill-color: rgba(255,255,255,.32) !important;
+  caret-color: #fff;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ── Username: single unified box ────── */
+.username-field {
+  display: flex; align-items: stretch;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface); overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.username-field:focus-within { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,184,160,.12); }
+.username-field.err-border { border-color: var(--error); box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+/* Input inside the unified box — strip its own border/bg/shadow */
+.username-field .fsv-input {
+  border: none !important; border-radius: 0 !important;
+  background: transparent !important; box-shadow: none !important;
+  flex: 1; min-width: 0;
+}
+.username-field .fsv-input:focus { border-color: transparent !important; box-shadow: none !important; }
+.username-field .fsv-input:-webkit-autofill,
+.username-field .fsv-input:-webkit-autofill:hover,
+.username-field .fsv-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 100px #111 inset !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.domain-suffix {
+  display: flex; align-items: center; padding: 0 14px;
+  font-size: .82rem; font-weight: 500; color: rgba(255,255,255,.26);
+  white-space: nowrap; flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  transition: color .2s, border-color .2s; pointer-events: none;
+}
+.username-field:focus-within .domain-suffix { color: rgba(0,184,160,.5); border-left-color: rgba(0,184,160,.2); }
+
+/* ── Password wrap with eye toggle ───── */
+.pw-wrap { position: relative; }
+.pw-wrap .fsv-input { padding-right: 44px; }
+.pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px; color: rgba(255,255,255,.25); transition: color .2s; display: flex; align-items: center; line-height: 0; }
+.pw-toggle:hover { color: rgba(255,255,255,.65); }
+
+/* ── Field-level errors ──────────────── */
+.f-group { margin-bottom: 14px; }
+.f-label { display: block; font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 8px; }
+.field-err { display: none; align-items: center; gap: 5px; font-size: .72rem; color: var(--error); margin-top: 6px; }
+.field-err.show { display: flex; }
+
+/* ── Submit button ───────────────────── */
+.submit-btn, .otp-submit {
+  width: 100%; background: var(--teal); color: #fff; border: none;
+  font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 600;
+  padding: 14px; border-radius: 10px; cursor: pointer; margin-top: 8px;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.submit-btn:hover:not(:disabled), .otp-submit:hover:not(:disabled) { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,184,160,.28); }
+.submit-btn:disabled, .otp-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.submit-btn .btn-text, .otp-submit .btn-text { transition: opacity .15s; }
+.submit-btn .btn-spinner, .otp-submit .btn-spinner { display: none; }
+.submit-btn.loading .btn-text, .otp-submit.loading .btn-text { opacity: 0; position: absolute; }
+.submit-btn.loading .btn-spinner, .otp-submit.loading .btn-spinner { display: flex; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-ring { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.25); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+
+/* Divider + help */
+.divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.07); }
+.divider span { font-size: .68rem; color: rgba(255,255,255,.2); letter-spacing: .06em; text-transform: uppercase; }
+.help-link { text-align: center; font-size: .78rem; color: rgba(255,255,255,.22); }
+.help-link a { color: rgba(0,184,160,.65); text-decoration: none; transition: color .2s; }
+.help-link a:hover { color: var(--teal); }
+
+/* ── OTP panel ───────────────────────── */
+.otp-back { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; color: rgba(255,255,255,.3); background: none; border: none; cursor: pointer; padding: 0; font-family: 'Inter', sans-serif; transition: color .2s; margin-bottom: 20px; }
+.otp-back:hover { color: rgba(255,255,255,.65); }
+.otp-icon { width: 52px; height: 52px; background: rgba(0,184,160,.08); border: 1px solid rgba(0,184,160,.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.otp-icon svg { stroke: var(--teal); }
+.otp-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; margin-bottom: 4px; }
+.otp-to { display: inline-block; font-size: .78rem; font-weight: 600; color: var(--teal); background: rgba(0,184,160,.08); border-radius: 5px; padding: 2px 8px; margin-top: 4px; }
+
+/* Six individual digit boxes */
+.otp-boxes { display: flex; gap: 8px; margin: 24px 0 8px; }
+.otp-box {
+  width: 48px; height: 58px; flex-shrink: 0;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px;
+  font-size: 1.4rem; font-weight: 700; color: #fff; text-align: center;
+  outline: none; font-family: 'Inter', sans-serif;
+  -webkit-appearance: none; appearance: none; caret-color: var(--teal);
+  transition: border-color .15s, box-shadow .15s, background .15s;
+  /* autofill override */
+  -webkit-text-fill-color: #fff;
+}
+.otp-box:-webkit-autofill { -webkit-box-shadow: 0 0 0 100px #151515 inset !important; -webkit-text-fill-color: #fff !important; }
+.otp-box::placeholder { color: rgba(255,255,255,.08); }
+.otp-box:focus { border-color: var(--teal); background: rgba(0,184,160,.07); box-shadow: 0 0 0 3px rgba(0,184,160,.12); }
+.otp-box.filled { border-color: rgba(0,184,160,.4); background: rgba(0,184,160,.06); }
+.otp-box.otp-err { border-color: var(--error); background: rgba(239,68,68,.07); box-shadow: 0 0 0 3px rgba(239,68,68,.1); animation: shake .35s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+
+.otp-error-msg { display: none; align-items: center; gap: 5px; font-size: .72rem; color: var(--error); margin-bottom: 12px; }
+.otp-error-msg.show { display: flex; }
+
+.otp-resend { text-align: center; margin-top: 16px; font-size: .78rem; color: rgba(255,255,255,.22); }
+.otp-resend button { background: none; border: none; cursor: pointer; padding: 0; font-family: 'Inter', sans-serif; font-size: .78rem; color: rgba(0,184,160,.65); transition: color .2s; }
+.otp-resend button:hover { color: var(--teal); }
+.otp-resend button:disabled { color: rgba(255,255,255,.2); cursor: not-allowed; }
+.otp-timer { color: rgba(255,255,255,.28); font-weight: 500; }
+
+/* ── Redirect / transition panel ─────── */
+.rdr-icon { width: 64px; height: 64px; background: rgba(0,184,160,.1); border: 1px solid rgba(0,184,160,.22); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; position: relative; }
+.rdr-ring { position: absolute; inset: -7px; border: 1.5px solid transparent; border-top-color: var(--teal); border-radius: 50%; animation: spin .9s linear infinite; }
+.rdr-icon svg { stroke: var(--teal); }
+.rdr-h { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 6px; letter-spacing: -.02em; }
+.rdr-sub { font-size: .82rem; color: var(--muted); margin-bottom: 6px; }
+.rdr-user { font-size: .78rem; color: var(--teal); font-weight: 500; margin-bottom: 28px; }
+.rdr-steps { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 240px; }
+.r-step { display: flex; align-items: center; gap: 12px; font-size: .78rem; color: rgba(255,255,255,.22); transition: color .4s; }
+.r-step.active { color: rgba(255,255,255,.7); }
+.r-step.done   { color: var(--teal); }
+.r-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; border: 1.5px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; transition: border-color .4s, background .4s; }
+.r-step.active .r-dot { border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.04); }
+.r-step.done   .r-dot { border-color: var(--teal); background: rgba(0,184,160,.14); }
+.r-dot svg { display: none; }
+.r-step.done .r-dot svg { display: block; }
+.r-spin { width: 10px; height: 10px; border: 1.5px solid rgba(255,255,255,.18); border-top-color: rgba(255,255,255,.7); border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+.r-step.active .r-spin { display: block; }
+.r-step.active .r-dot  { display: none; }
+.r-step.done   .r-spin { display: none; }
+
+/* ── Error panel ─────────────────────── */
+.err-icon { width: 56px; height: 56px; background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.22); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.err-icon svg { stroke: var(--error); }
+.err-h { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -.02em; }
+.err-p { font-size: .82rem; color: var(--muted); line-height: 1.7; margin-bottom: 28px; max-width: 280px; }
+.retry-btn { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: #fff; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: .875rem; font-weight: 600; padding: 12px 28px; cursor: pointer; transition: background .2s, border-color .2s; }
+.retry-btn:hover { background: rgba(255,255,255,.11); border-color: rgba(255,255,255,.2); }
+.err-count { margin-top: 14px; font-size: .7rem; color: rgba(255,255,255,.18); }
+
+/* ── Responsive ──────────────────────── */
+.mobile-logo { display: none; align-items: center; margin-bottom: 36px; }
+.mobile-logo img { height: 32px; filter: invert(1) brightness(.85); }
+@media (max-width: 860px) {
+  .page { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { border-left: none; min-height: 100vh; background: var(--black); padding: 32px 24px; }
+  .signin-card { max-width: 400px; margin: 0 auto; }
+  .mobile-logo { display: flex !important; }
+  .otp-boxes { gap: 6px; }
+  .otp-box { width: 42px; height: 52px; font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<canvas id="particles"></canvas>
+
+<div class="page">
+
+  <!-- Left -->
+  <div class="left-panel">
+    <div class="left-logo"><a href="home.html"><img src="images/logo.png" alt="FSV Tech"/></a></div>
+    <div class="left-content">
+      <div class="left-eyebrow">Employee Portal</div>
+      <h1 class="left-h">Your <em>workspace</em><br>starts here.</h1>
+      <p class="left-p">Sign in with your FSV Tech credentials to access your mailbox and internal tools.</p>
+    </div>
+    <div class="left-footer">
+      <a href="home.html">← Back to website</a> &nbsp;·&nbsp; © 2026 FSV Tech
+    </div>
+  </div>
+
+  <!-- Right card -->
+  <div class="right-panel">
+    <div class="signin-card">
+
+      <div class="mobile-logo"><a href="home.html"><img src="images/logo.png" alt="FSV Tech"/></a></div>
+
+      <div class="card-tag"><div class="card-tag-dot"></div><span>Secure Access</span></div>
+      <h2 class="card-h" id="cardTitle">Sign in</h2>
+      <p class="card-sub" id="cardSub">Use your FSV Tech employee credentials.</p>
+
+      <!-- ── Panel 1: Login ─────────────── -->
+      <div class="panel active" id="panelLogin">
+        <form id="loginForm" novalidate>
+
+          <div class="f-group">
+            <label class="f-label" for="username">Username</label>
+            <div class="username-field" id="usernameField">
+              <input class="fsv-input" type="text" id="username" name="username"
+                placeholder="Username" autocomplete="username"
+                autocapitalize="none" autocorrect="off" spellcheck="false"/>
+              <div class="domain-suffix">@fsv-tech.com</div>
+            </div>
+            <div class="field-err" id="usernameErr">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><path d="M8 5v3M8 11h.01"/></svg>
+              Please enter your username.
+            </div>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label" for="password">Password</label>
+            <div class="pw-wrap">
+              <input class="fsv-input" type="password" id="password" name="password"
+                placeholder="••••••••••••" autocomplete="current-password"/>
+              <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">
+                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <div class="field-err" id="passwordErr">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><path d="M8 5v3M8 11h.01"/></svg>
+              Please enter your password.
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn" id="loginBtn">
+            <span class="btn-text">Sign In to Mail</span>
+            <div class="btn-spinner"><div class="spinner-ring"></div></div>
+          </button>
+        </form>
+
+        <div class="divider"><span>need help?</span></div>
+        <div class="help-link">Contact <a href="/cdn-cgi/l/email-protection#036a77436570752e7766606b2d606c6e"><span class="__cf_email__" data-cfemail="48213c082e3b3e653c2d2b20662b2725">[email&#160;protected]</span></a> for access issues.</div>
+      </div>
+
+      <!-- ── Panel 2: OTP ───────────────── -->
+      <div class="panel" id="panelOtp">
+        <button class="otp-back" id="otpBack">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 3L5 8l5 5"/></svg>
+          Back
+        </button>
+        <div class="otp-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>
+          </svg>
+        </div>
+        <p class="otp-desc">A 6-digit code was sent to your registered device.</p>
+        <div class="otp-to" id="otpTo"></div>
+
+        <div class="otp-boxes" id="otpBoxes">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1"/>
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2"/>
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3"/>
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4"/>
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5"/>
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6"/>
+        </div>
+        <div class="otp-error-msg" id="otpErrMsg">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="7"/><path d="M8 5v3M8 11h.01"/></svg>
+          Incorrect code. Please try again.
+        </div>
+
+        <button class="otp-submit" id="otpBtn" disabled>
+          <span class="btn-text">Verify &amp; Open Mail</span>
+          <div class="btn-spinner"><div class="spinner-ring"></div></div>
+        </button>
+
+        <div class="otp-resend">
+          Didn't receive it? &nbsp;
+          <button id="resendBtn" disabled>Resend <span class="otp-timer" id="otpTimer">(0:30)</span></button>
+        </div>
+      </div>
+
+      <!-- ── Panel 3: Transition ────────── -->
+      <div class="panel flex-center" id="panelRedirect">
+        <div class="rdr-icon">
+          <div class="rdr-ring"></div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <p class="rdr-h">Opening your mailbox…</p>
+        <p class="rdr-sub">Connecting to FSV Tech Mail</p>
+        <div class="rdr-user" id="rdrUser"></div>
+        <div class="rdr-steps">
+          <div class="r-step" id="step1">
+            <div class="r-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <div class="r-spin"></div><span>Verifying credentials</span>
+          </div>
+          <div class="r-step" id="step2">
+            <div class="r-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <div class="r-spin"></div><span>Establishing secure session</span>
+          </div>
+          <div class="r-step" id="step3">
+            <div class="r-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <div class="r-spin"></div><span>Loading mailbox</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Panel 4: Error ─────────────── -->
+      <div class="panel flex-center" id="panelError">
+        <div class="err-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/>
+          </svg>
+        </div>
+        <p class="err-h">Sign in failed</p>
+        <p class="err-p">The credentials you entered are incorrect. Please check your username and password and try again.</p>
+        <button class="retry-btn" id="retryBtn">Try Again</button>
+        <div class="err-count" id="errCount"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Particles ────────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('particles'),cx=cv.getContext('2d');
+  let W,H,pts;
+  const N=40,D=160,S=.15;
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  function spawn(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*S,vy:(Math.random()-.5)*S,r:Math.random()*1.2+.4}));}
+  function frame(){
+    cx.clearRect(0,0,W,H);
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<D){cx.beginPath();cx.strokeStyle=`rgba(0,184,160,${(1-d/D)*.09})`;cx.lineWidth=.5;cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);cx.stroke();}}
+    for(const p of pts){cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle='rgba(0,184,160,.14)';cx.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<-10)p.x=W+10;else if(p.x>W+10)p.x=-10;if(p.y<-10)p.y=H+10;else if(p.y>H+10)p.y=-10;}
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',()=>{resize();spawn();});
+  resize();spawn();frame();
+})();
+
+// ── State ────────────────────────────────────────────────────
+let currentUser = '';
+let loginAttempts = 0;
+let otpInterval = null;
+
+// ── Helpers ──────────────────────────────────────────────────
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function setHeader(h, s) {
+  document.getElementById('cardTitle').textContent = h;
+  document.getElementById('cardSub').textContent = s;
+}
+
+// ── Password toggle ──────────────────────────────────────────
+const pwInput  = document.getElementById('password');
+const pwToggle = document.getElementById('pwToggle');
+const eyeIcon  = document.getElementById('eyeIcon');
+const EYE_OPEN   = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+const EYE_CLOSED = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+pwToggle.addEventListener('click', () => {
+  const show = pwInput.type === 'password';
+  pwInput.type = show ? 'text' : 'password';
+  eyeIcon.innerHTML = show ? EYE_CLOSED : EYE_OPEN;
+});
+
+// ── Login form ───────────────────────────────────────────────
+const loginForm   = document.getElementById('loginForm');
+const loginBtn    = document.getElementById('loginBtn');
+const userInput   = document.getElementById('username');
+const userField   = document.getElementById('usernameField');
+const usernameErr = document.getElementById('usernameErr');
+const passwordErr = document.getElementById('passwordErr');
+
+userInput.addEventListener('input', () => {
+  userField.classList.remove('err-border'); usernameErr.classList.remove('show');
+  userInput.classList.toggle('has-value', userInput.value.length > 0);
+});
+pwInput.addEventListener('input', () => {
+  pwInput.classList.remove('err-border'); passwordErr.classList.remove('show');
+  pwInput.classList.toggle('has-value', pwInput.value.length > 0);
+});
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = userInput.value.trim();
+  const password = pwInput.value;
+  let valid = true;
+  if (!username) { userField.classList.add('err-border'); usernameErr.classList.add('show'); valid = false; }
+  if (!password) { pwInput.classList.add('err-border');   passwordErr.classList.add('show'); valid = false; }
+  if (!valid) return;
+
+  loginBtn.classList.add('loading'); loginBtn.disabled = true;
+  currentUser = username;
+
+  const email = username + '@fsv-tech.com';
+  let result = 'unknown';
+  try { result = await attemptZohoAuth(email, password); } catch(err) { result = 'unknown'; }
+
+  loginBtn.classList.remove('loading'); loginBtn.disabled = false;
+
+  if (result === 'failure') {
+    loginAttempts++;
+    showPanel('panelError');
+    setHeader('Sign in failed', ' ');
+    if (loginAttempts > 1) document.getElementById('errCount').textContent = `${loginAttempts} failed attempts`;
+    return;
+  }
+
+  if (result === 'otp') {
+    document.getElementById('otpTo').textContent = email;
+    setHeader('Verify your identity', 'Enter the code sent to your device.');
+    showPanel('panelOtp');
+    startOtpTimer();
+    document.querySelector('.otp-box').focus();
+    return;
+  }
+
+  // success or unknown — go to mail
+  doRedirect(username);
+});
+
+// ── Retry ────────────────────────────────────────────────────
+document.getElementById('retryBtn').addEventListener('click', () => {
+  setHeader('Sign in', 'Use your FSV Tech employee credentials.');
+  showPanel('panelLogin');
+  pwInput.value = ''; pwInput.type = 'password'; eyeIcon.innerHTML = EYE_OPEN;
+});
+
+// ── OTP boxes ────────────────────────────────────────────────
+const otpBoxes  = Array.from(document.querySelectorAll('.otp-box'));
+const otpBtn    = document.getElementById('otpBtn');
+const otpErrMsg = document.getElementById('otpErrMsg');
+
+function getOtp()  { return otpBoxes.map(b => b.value).join(''); }
+function checkOtp(){ otpBtn.disabled = getOtp().length < 6; }
+function clearOtpErr() { otpBoxes.forEach(b => b.classList.remove('otp-err')); otpErrMsg.classList.remove('show'); }
+
+otpBoxes.forEach((box, i) => {
+  box.addEventListener('input', () => {
+    box.value = box.value.replace(/\D/g,'').slice(-1);
+    if (box.value) { box.classList.add('filled'); if (i < 5) otpBoxes[i+1].focus(); }
+    else box.classList.remove('filled');
+    clearOtpErr();
+    checkOtp();
+  });
+  box.addEventListener('keydown', e => {
+    if (e.key === 'Backspace') {
+      if (box.value) { box.value = ''; box.classList.remove('filled'); }
+      else if (i > 0) { otpBoxes[i-1].focus(); otpBoxes[i-1].value = ''; otpBoxes[i-1].classList.remove('filled'); }
+      checkOtp();
+    }
+    if (e.key === 'ArrowLeft'  && i > 0) { e.preventDefault(); otpBoxes[i-1].focus(); }
+    if (e.key === 'ArrowRight' && i < 5) { e.preventDefault(); otpBoxes[i+1].focus(); }
+  });
+  box.addEventListener('paste', e => {
+    e.preventDefault();
+    const digits = (e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'');
+    digits.split('').slice(0,6).forEach((ch,idx) => { if(otpBoxes[idx]){otpBoxes[idx].value=ch;otpBoxes[idx].classList.add('filled');} });
+    otpBoxes[Math.min(digits.length,5)].focus();
+    checkOtp();
+  });
+});
+
+// Back from OTP
+document.getElementById('otpBack').addEventListener('click', () => {
+  stopOtpTimer();
+  otpBoxes.forEach(b => { b.value=''; b.classList.remove('filled','otp-err'); });
+  otpBtn.disabled = true; clearOtpErr();
+  setHeader('Sign in', 'Use your FSV Tech employee credentials.');
+  showPanel('panelLogin');
+});
+
+// Submit OTP
+otpBtn.addEventListener('click', async () => {
+  const code = getOtp(); if (code.length < 6) return;
+  clearOtpErr();
+  otpBtn.classList.add('loading'); otpBtn.disabled = true;
+
+  const email = currentUser + '@fsv-tech.com';
+  let result = 'unknown';
+  try { result = await submitZohoOtp(email, code); } catch(err) { result = 'unknown'; }
+
+  otpBtn.classList.remove('loading');
+
+  if (result === 'failure') {
+    otpBoxes.forEach(b => b.classList.add('otp-err'));
+    otpErrMsg.classList.add('show');
+    otpBtn.disabled = false;
+    setTimeout(() => {
+      otpBoxes.forEach(b => { b.value=''; b.classList.remove('filled','otp-err'); });
+      clearOtpErr(); otpBoxes[0].focus(); checkOtp();
+    }, 1000);
+    return;
+  }
+
+  stopOtpTimer();
+  doRedirect(currentUser);
+});
+
+// OTP resend timer
+let timerSecs = 30;
+function startOtpTimer() {
+  timerSecs = 30; document.getElementById('resendBtn').disabled = true;
+  stopOtpTimer();
+  const lbl = document.getElementById('otpTimer');
+  otpInterval = setInterval(() => {
+    timerSecs--;
+    lbl.textContent = `(0:${timerSecs<10?'0':''}${timerSecs})`;
+    if (timerSecs <= 0) { stopOtpTimer(); lbl.textContent=''; document.getElementById('resendBtn').disabled=false; }
+  }, 1000);
+}
+function stopOtpTimer() { if (otpInterval) { clearInterval(otpInterval); otpInterval=null; } }
+document.getElementById('resendBtn').addEventListener('click', () => {
+  startOtpTimer();
+  otpBoxes.forEach(b => { b.value=''; b.classList.remove('filled','otp-err'); });
+  otpBoxes[0].focus(); checkOtp(); clearOtpErr();
+});
+
+// ── Redirect transition ──────────────────────────────────────
+function doRedirect(username) {
+  document.getElementById('rdrUser').textContent = username + '@fsv-tech.com';
+  setHeader('Opening mailbox…', 'Connecting to FSV Tech Mail');
+  showPanel('panelRedirect');
+
+  const ids = ['step1','step2','step3'];
+  ids.forEach(id => { const el=document.getElementById(id); el.classList.remove('active','done'); });
+  const [s1,s2,s3] = ids.map(id => document.getElementById(id));
+  s1.classList.add('active');
+  setTimeout(() => { s1.classList.remove('active'); s1.classList.add('done'); s2.classList.add('active'); }, 600);
+  setTimeout(() => { s2.classList.remove('active'); s2.classList.add('done'); s3.classList.add('active'); }, 1250);
+  setTimeout(() => { s3.classList.remove('active'); s3.classList.add('done'); }, 1800);
+  setTimeout(() => { window.location.href = 'https://mail.zoho.com/zm/#mail'; }, 2300);
+}
+
+// ── Hidden iframe auth ───────────────────────────────────────
+function iframePost(action, fields, TIMEOUT) {
+  return new Promise(resolve => {
+    let done = false;
+    function finish(r) {
+      if (done) return; done = true;
+      clearTimeout(timer); clearInterval(poll);
+      try { iframe.contentWindow.location.replace('about:blank'); } catch(e) {}
+      setTimeout(() => { try { document.body.removeChild(iframe); } catch(e) {} try { document.body.removeChild(frm); } catch(e) {} }, 300);
+      resolve(r);
+    }
+    const iframe = document.createElement('iframe');
+    const name = 'zhf_' + Date.now();
+    iframe.name = name;
+    iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+    document.body.appendChild(iframe);
+
+    const frm = document.createElement('form');
+    frm.method = 'POST'; frm.action = action; frm.target = name; frm.style.display = 'none';
+    Object.entries(fields).forEach(([n,v]) => { const i=document.createElement('input'); i.type='hidden'; i.name=n; i.value=v; frm.appendChild(i); });
+    document.body.appendChild(frm);
+    frm.submit();
+
+    const poll = setInterval(() => {
+      try {
+        const href = iframe.contentWindow.location.href;
+        if (!href || href === 'about:blank') return;
+        if (href.includes('mail.zoho.com') || href.includes('/zm/')) return finish('success');
+        if (href.includes('tfa') || href.includes('otp') || href.includes('twofactor') || href.includes('mfa')) return finish('otp');
+        if (href.includes('INVALID') || href.includes('invalid') || href.includes('error') || (href.includes('signin') && href.includes('msg='))) return finish('failure');
+      } catch(e) {
+        // Cross-origin redirect — Zoho moved us to a different domain = accepted
+        finish('unknown');
+      }
+    }, 250);
+
+    const timer = setTimeout(() => finish('unknown'), TIMEOUT);
+  });
+}
+
+function attemptZohoAuth(email, password) {
+  // Zoho's lookup endpoint: POST email first, then password
+  // We do a single combined POST to the primary auth endpoint
+  return iframePost(
+    'https://accounts.zoho.com/signin/v2/primaryauth',
+    { LOGIN_ID: email, PASSWORD: password, IS_AJAX: 'true', remember_me: 'false' },
+    12000
+  );
+}
+
+function submitZohoOtp(email, code) {
+  // After OTP is shown, submit the TFA code
+  return iframePost(
+    'https://accounts.zoho.com/tfa/verify',
+    { LOGIN_ID: email, tfa_code: code, IS_AJAX: 'true' },
+    10000
+  );
+}
+</script>
+</body>
+</html>

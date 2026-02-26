@@ -132,6 +132,7 @@
   .svc-card:last-child { border-bottom: none; }
   .image-band { height: 320px; }
 }
+
 </style>
 <link rel="canonical" href="https://fsv-tech.com/"/>
 </head>
@@ -143,6 +144,15 @@
     <ul class="nav-links">
       <li><a href="home.html" data-t="nav_home">Home</a></li>
       <li><a href="about.html" data-t="nav_about">About</a></li>
+      <li class="nav-has-dropdown">
+        <a href="products.html" data-t="nav_products">Products</a>
+        <div class="nav-dropdown">
+          <div class="nav-dropdown-inner">
+            <a href="products.html"><span class="nav-dropdown-dot"></span><span>Products Overview</span></a>
+            <a href="partner-portal.html"><span class="nav-dropdown-dot"></span><span data-t="pp_nav_item">FSV Partner Portal</span></a>
+          </div>
+        </div>
+      </li>
       <li><a href="services.html" data-t="nav_services">Services</a></li>
       <li><a href="industries.html" data-t="nav_industries">Industries</a></li>
       <li><a href="contact.html" data-t="nav_contact">Contact</a></li>
@@ -160,6 +170,8 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="home.html" data-t="nav_home">Home</a>
   <a href="about.html" data-t="nav_about">About</a>
+  <a href="products.html" data-t="nav_products">Products</a>
+  <a href="partner-portal.html" style="font-size:1.1rem;padding-left:16px;color:var(--grey);" data-t="pp_nav_item">FSV Partner Portal</a>
   <a href="services.html" data-t="nav_services">Services</a>
   <a href="industries.html" data-t="nav_industries">Industries</a>
   <a href="contact.html" data-t="nav_contact">Contact</a>
@@ -168,6 +180,8 @@
     <button class="mob-lang-btn active" data-lang="en">English</button>
     <button class="mob-lang-btn" data-lang="ar">عربي</button>
   </div>
+</div>
+
 </div>
 
 <!-- HERO -->
@@ -341,8 +355,8 @@
     <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#4a23242c250a2c393c673e2f292264292527" data-t="con_mail_v"><span class="__cf_email__" data-cfemail="aac3c4ccc5eaccd9dc87decfc9c284c9c5c7">[email&#160;protected]</span></a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
   </div>
   <div class="footer-bottom">
-    <span data-t="footer_copy">© 2026 FSV Tech Consulting & Services.</span>
-    <div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
+    <span data-t="footer_copy">&#169; 2026 FSV Tech Consulting &amp; Services.</span>
+    <a href="signin.html" style="font-size:0.72rem;color:rgba(255,255,255,0.18);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,0.45)'" onmouseout="this.style.color='rgba(255,255,255,0.18)'">Employee Sign In</a><div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
   </div>
 </footer>
 
@@ -361,3 +375,6 @@ window.addEventListener('load',()=>{ const b=document.getElementById('heroBg'); 
       if(d<D){ctx.beginPath();ctx.strokeStyle=`rgba(0,184,160,${(1-d/D)*0.08})`;ctx.lineWidth=0.5;ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke();}
     }
     for(const n of nodes){ ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(0,184,160,0.14)';ctx.fill(); n.x+=n.vx; n.y+=n.vy; if(n.x<-10)n.x=W
+<script src="main.js"></script>
+</body>
+</html>

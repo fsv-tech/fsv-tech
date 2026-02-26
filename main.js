@@ -3,7 +3,29 @@
 const T = {
   en: {
     nav_home:'Home', nav_about:'About', nav_services:'Services',
+    nav_products:'Products',
     nav_industries:'Industries', nav_contact:'Contact', nav_cta:'Get in Touch',
+
+    prod_banner_ey:'Built by FSV Tech', prod_banner_h:'Our ', prod_banner_hem:'Products',
+    prod_banner_p:"Sovereign, enterprise-grade software built for Qatar's government and private sector — owned, operated, and continuously developed by FSV Tech.",
+    prod_list_ey:'Available Now', prod_list_h:'One product. ', prod_list_hem:'More on the way.',
+    prod_list_p:"FSV Tech builds software it would use itself. Every product is purpose-built for enterprise reality — not minimum viable. Our current product suite reflects that standard.",
+    prod_p1_status:'Live · Available Now', prod_p1_h:'FSV Partner Portal',
+    prod_p1_desc:'A fully white-labelled enterprise command centre that unifies project delivery, revenue intelligence, workforce management, and secure document storage — in one sovereign platform built for Qatar.',
+    prod_p1_t1:'White-Label', prod_p1_t2:'6 Modules', prod_p1_t3:'QAR Native', prod_p1_t4:'Sovereign',
+    prod_p1_cta1:'Explore Product', prod_p1_cta2:'Request Demo',
+    prod_soon_tag:'Coming Soon', prod_soon_h:'Next Product',
+    prod_soon_desc:"We're building more. Our next product is currently in development — engineered to the same sovereign, enterprise-grade standard as the FSV Partner Portal.",
+    prod_soon_t1:'In Development',
+    prod_phil_ey:'Our Product Philosophy', prod_phil_h:'Software built to ', prod_phil_hem:'last.',
+    prod_phil_p:"Every FSV Tech product is designed for the long term — sovereign, auditable, and aligned with Qatar's national technology standards. We don't ship features. We ship systems.",
+    prod_pp1_h:'Sovereign by Default', prod_pp1_p:"Data stays within Qatar's jurisdiction. No third-party dependencies on foreign cloud infrastructure.",
+    prod_pp2_h:'Enterprise-Grade Quality', prod_pp2_p:'Production-hardened architecture built to handle national-scale workloads and mission-critical operations.',
+    prod_pp3_h:'Your Brand, Not Ours', prod_pp3_p:'Full white-label identity control — logo, colours, and UX — so every touchpoint reflects your organisation.',
+    prod_pp4_h:'Built to Scale', prod_pp4_p:'Modular architecture designed to grow with your operations — from pilot deployment to enterprise rollout.',
+    prod_cta_h:'Interested in deploying FSV Tech software?',
+    prod_cta_p:'Contact us to discuss licensing, customisation, or a live demonstration for your organisation.',
+    prod_cta_btn:'Get in Touch',
 
     home_eyebrow:'AI Consultancy · Doha, Qatar',
     home_h1a:'Technology that', home_h1b:'moves nations', home_h1b_serif:'forward.',
@@ -261,7 +283,28 @@ const T = {
 
   ar: {
     nav_home:'الرئيسية', nav_about:'من نحن', nav_services:'خدماتنا',
+    nav_products:'المنتجات',
     nav_industries:'القطاعات', nav_contact:'تواصل', nav_cta:'ابدأ محادثة',
+    prod_banner_ey:'من تطوير FSV Tech', prod_banner_h:'منتجاتنا ', prod_banner_hem:'',
+    prod_banner_p:'برامج مؤسسية سيادية مصممة لقطاعي الحكومة والخاص في قطر.',
+    prod_list_ey:'متاح الآن', prod_list_h:'منتج واحد. ', prod_list_hem:'المزيد قادم.',
+    prod_list_p:'تبني FSV Tech برمجيات تستخدمها بنفسها. كل منتج مصمَّم للواقع المؤسسي.',
+    prod_p1_status:'متاح الآن', prod_p1_h:'بوابة الشركاء FSV',
+    prod_p1_desc:'مركز قيادة مؤسسي مع هوية تجارية كاملة يوحّد تسليم المشاريع وذكاء الإيرادات وإدارة القوى العاملة والمستندات في منصة سيادية واحدة.',
+    prod_p1_t1:'هوية تجارية كاملة', prod_p1_t2:'6 وحدات', prod_p1_t3:'ريال قطري', prod_p1_t4:'سيادي',
+    prod_p1_cta1:'استكشاف المنتج', prod_p1_cta2:'طلب عرض تجريبي',
+    prod_soon_tag:'قريباً', prod_soon_h:'المنتج القادم',
+    prod_soon_desc:'نبني المزيد. منتجنا القادم قيد التطوير حالياً بنفس المعيار السيادي والمؤسسي.',
+    prod_soon_t1:'قيد التطوير',
+    prod_phil_ey:'فلسفة منتجاتنا', prod_phil_h:'برمجيات مصممة للـ', prod_phil_hem:'دوام.',
+    prod_phil_p:'كل منتج من FSV Tech مصمَّم على المدى البعيد — سيادي وقابل للتدقيق ومتوافق مع المعايير الوطنية.',
+    prod_pp1_h:'سيادي بطبيعته', prod_pp1_p:'تبقى البيانات ضمن اختصاص قطر القضائي. لا اعتماد على بنية تحتية أجنبية.',
+    prod_pp2_h:'جودة مؤسسية', prod_pp2_p:'بنية معمارية مختبرة لاستيعاب أعباء العمل على المستوى الوطني.',
+    prod_pp3_h:'علامتك التجارية', prod_pp3_p:'تحكم كامل في هوية العلامة التجارية — الشعار والألوان وتجربة المستخدم.',
+    prod_pp4_h:'مصمم للنمو', prod_pp4_p:'بنية معيارية تنمو مع عملياتك من النشر التجريبي إلى الطرح المؤسسي.',
+    prod_cta_h:'مهتم بنشر برمجيات FSV Tech؟',
+    prod_cta_p:'تواصل معنا لمناقشة الترخيص والتخصيص أو عرض تجريبي حي.',
+    prod_cta_btn:'تواصل معنا',
     home_eyebrow:'استشارات الذكاء الاصطناعي · الدوحة، قطر',
     home_h1a:'تكنولوجيا', home_h1b:'تُقدِّم الأمم', home_h1b_serif:'إلى الأمام.', home_sub:'تُقدِّم FSV Tech حلول الذكاء الاصطناعي المؤسسي وتطوير الويب والبرمجيات السيادية والبنية التحتية التقنية — وفق أعلى معايير الأمن القومي في قطر.',
     home_cta1:'خدماتنا', home_cta2:'من نحن',
@@ -587,6 +630,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.lang-btn,.mob-lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
   applyLang(currentLang);
+
+
+  // ── Products dropdown — JS managed so gap between trigger and panel doesn't close it ──
+  document.querySelectorAll('.nav-has-dropdown').forEach(item => {
+    let closeTimer = null;
+
+    function openDD()  { clearTimeout(closeTimer); item.classList.add('open'); }
+    function scheduleClose() {
+      closeTimer = setTimeout(() => item.classList.remove('open'), 120);
+    }
+
+    item.addEventListener('mouseenter', openDD);
+    item.addEventListener('mouseleave', scheduleClose);
+
+    // Also support click/tap for touch devices
+    const trigger = item.querySelector(':scope > a');
+    trigger.addEventListener('click', e => {
+      if (window.innerWidth > 960) {
+        // On desktop prevent navigation to products.html when clicking the trigger
+        // only if dropdown has items (i.e. user is opening the menu, not navigating)
+        const dd = item.querySelector('.nav-dropdown');
+        if (dd) {
+          e.preventDefault();
+          item.classList.toggle('open');
+        }
+      }
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-has-dropdown')) {
+      document.querySelectorAll('.nav-has-dropdown.open').forEach(el => el.classList.remove('open'));
+    }
+  });
 
   document.body.classList.add('js-ready');
 
