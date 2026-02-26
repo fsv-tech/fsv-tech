@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="FSV Partner Portal — The enterprise-grade command centre for your partners. White-labelled, sovereign, and built for scale."/>
+<meta name="robots" content="index, follow"/>
+<link rel="icon" type="image/svg+xml" href="images/logo.svg"/>
+<link rel="alternate icon" href="images/logo.png"/>
+<title>FSV Partner Portal — FSV Tech</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* Products dropdown */
+.nav-has-dropdown { position: relative; }
+.nav-dropdown {
+  display: none; position: absolute;
+  top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.10); min-width: 210px; padding: 6px; z-index: 200;
+}
+.nav-has-dropdown:hover .nav-dropdown { display: block; }
+.nav-dropdown a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; border-radius: 6px;
+  font-size: 0.875rem; font-weight: 500; color: var(--grey);
+  white-space: nowrap; text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.nav-dropdown a:hover { background: var(--light); color: var(--ink); }
+.nav-dropdown a.dd-active { color: var(--ink); font-weight: 600; }
+.nav-dropdown-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+.nav-has-dropdown > a { display: flex; align-items: center; gap: 5px; }
+.nav-has-dropdown > a::after {
+  content: '';
+  border: 4px solid transparent; border-top-color: currentColor;
+  transform: translateY(2px); display: inline-block;
+}
+
+/* Banner */
+.portal-banner {
+  padding: calc(var(--nav-h) + 80px) 0 80px;
+  background: var(--black); position: relative; overflow: hidden;
+}
+.portal-banner::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 65% 55% at 65% 50%, rgba(0,184,160,.07) 0%, transparent 70%);
+}
+.portal-banner-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+.portal-banner-inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+}
+.portal-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,184,160,.1); border: 1px solid rgba(0,184,160,.25);
+  border-radius: 20px; padding: 4px 14px 4px 8px; margin-bottom: 24px;
+}
+.portal-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: ppulse 2s infinite; }
+@keyframes ppulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(1.5);} }
+.portal-badge span { font-size: 0.68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: rgba(0,184,160,.9); }
+.portal-banner h1 { font-size: clamp(2.8rem,4.5vw,4.2rem); font-weight: 700; line-height: 1.07; letter-spacing: -.035em; color: #fff; margin-bottom: 20px; }
+.portal-banner h1 em { font-style: normal; color: var(--teal); }
+.portal-sub { font-size: 1rem; color: rgba(255,255,255,.5); line-height: 1.8; max-width: 440px; margin-bottom: 36px; }
+.banner-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-hero-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+.btn-hero-ghost:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); }
+.portal-stats { display: flex; gap: 36px; margin-top: 48px; padding-top: 36px; border-top: 1px solid rgba(255,255,255,.08); }
+.ps-n { font-size: 1.7rem; font-weight: 700; color: #fff; letter-spacing: -.03em; line-height: 1; }
+.ps-l { font-size: 0.68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-top: 4px; }
+
+/* Hero screenshot */
+.portal-screen {
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
+  transform: perspective(1200px) rotateY(-5deg) rotateX(2deg); transition: transform .6s ease;
+}
+.portal-screen:hover { transform: perspective(1200px) rotateY(-1deg) rotateX(0); }
+.screen-bar { height: 28px; background: #161616; display: flex; align-items: center; padding: 0 12px; gap: 6px; }
+.screen-bar span { width: 9px; height: 9px; border-radius: 50%; }
+.screen-bar span:nth-child(1){background:#ff5f57;}
+.screen-bar span:nth-child(2){background:#febc2e;}
+.screen-bar span:nth-child(3){background:#28c840;}
+.portal-screen img { width: 100%; display: block; }
+
+/* Marquee */
+.marquee-strip { background: var(--teal); padding: 11px 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: mscroll 28s linear infinite; }
+.marquee-track span { font-size: 0.7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #fff; padding: 0 26px; }
+.marquee-track span.sep { color: rgba(255,255,255,.4); }
+@keyframes mscroll { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+/* Feature grid */
+.feat-intro { text-align: center; max-width: 580px; margin: 0 auto 64px; }
+.feat-intro h2 { font-size: clamp(2rem,3.5vw,2.8rem); font-weight: 700; color: var(--ink); line-height: 1.12; letter-spacing: -.03em; margin-bottom: 14px; }
+.feat-intro p { font-size: 0.9375rem; color: var(--grey); line-height: 1.75; }
+.feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); }
+.feat-card { background: #fff; padding: 40px 34px; transition: background .2s; }
+.feat-card:hover { background: var(--light); }
+.feat-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(0,184,160,.08); border: 1px solid rgba(0,184,160,.16); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.feat-icon svg { width: 20px; height: 20px; stroke: var(--teal); fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+.feat-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+.feat-card p { font-size: 0.85rem; color: var(--grey); line-height: 1.7; }
+
+/* Showcase rows */
+.showcase { padding: 80px 0; border-top: 1px solid var(--border); }
+.showcase.alt { background: var(--light); }
+.showcase-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.showcase-inner.flip { direction: rtl; }
+.showcase-inner.flip > * { direction: ltr; }
+.sc-eyebrow { display: flex; align-items: center; gap: 10px; font-size: 0.68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+.sc-eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--teal); flex-shrink: 0; }
+.showcase-inner h2 { font-size: clamp(1.8rem,2.8vw,2.3rem); font-weight: 700; color: var(--ink); line-height: 1.12; letter-spacing: -.03em; margin-bottom: 14px; }
+.showcase-inner h2 em { font-style: normal; color: var(--teal); }
+.showcase-inner > div > p { font-size: 0.9375rem; color: var(--body); line-height: 1.8; margin-bottom: 22px; }
+.sc-bullets { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.sc-bullets li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.875rem; color: var(--body); }
+.sc-bullets li::before { content: ''; flex-shrink: 0; margin-top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--teal); }
+.sc-frame { border-radius: 10px; overflow: hidden; box-shadow: 0 16px 56px rgba(0,0,0,.1), 0 0 0 1px var(--border); }
+.sc-frame img { width: 100%; display: block; }
+.sc-label { display: inline-block; margin-top: 14px; font-size: 0.65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
+
+/* Gallery */
+.gallery-section { background: var(--black); padding: 96px 0; overflow: hidden; }
+.gallery-header { text-align: center; margin-bottom: 52px; }
+.gallery-header .eyebrow { justify-content: center; }
+.gallery-header h2 { font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 700; color: #fff; letter-spacing: -.03em; margin-bottom: 10px; }
+.gallery-header p { font-size: 0.9rem; color: rgba(255,255,255,.35); }
+.gallery-track-outer { overflow: hidden; }
+.gallery-track { display: flex; gap: 18px; animation: gscroll 32s linear infinite; }
+.gallery-track:hover { animation-play-state: paused; }
+.gallery-item { flex: 0 0 440px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,.06); box-shadow: 0 6px 28px rgba(0,0,0,.35); }
+.gallery-item img { width: 100%; display: block; }
+@keyframes gscroll { from{transform:translateX(0);} to{transform:translateX(calc(-440px * 5 - 90px));} }
+
+/* CTA */
+.portal-cta { padding: 100px 0; background: var(--black); position: relative; overflow: hidden; text-align: center; }
+.portal-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,184,160,.06) 0%, transparent 70%); }
+.portal-cta-inner { position: relative; z-index: 2; }
+.portal-cta h2 { font-size: clamp(2.2rem,4vw,3.2rem); font-weight: 700; color: #fff; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 16px; }
+.portal-cta h2 em { font-style: normal; color: var(--teal); }
+.portal-cta p { font-size: 0.9375rem; color: rgba(255,255,255,.4); max-width: 460px; margin: 0 auto 36px; line-height: 1.75; }
+.portal-cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+@media(max-width:960px){
+  .portal-banner-inner,.showcase-inner,.showcase-inner.flip { grid-template-columns: 1fr; direction: ltr; gap: 40px; }
+  .portal-screen { transform: none !important; }
+  .feat-grid { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:600px){ .feat-grid { grid-template-columns: 1fr; } .portal-stats { gap: 20px; } }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="home.html" class="nav-logo"><img src="images/logo.png" alt="FSV Tech"/></a>
+    <ul class="nav-links">
+      <li><a href="home.html" data-t="nav_home">Home</a></li>
+      <li><a href="about.html" data-t="nav_about">About</a></li>
+      <li class="nav-has-dropdown">
+        <a href="#" data-t="pp_nav_products">Products</a>
+        <div class="nav-dropdown">
+          <a href="partner-portal.html" class="dd-active">
+            <span class="nav-dropdown-dot"></span><span data-t="pp_nav_item">FSV Partner Portal</span>
+          </a>
+        </div>
+      </li>
+      <li><a href="services.html" data-t="nav_services">Services</a></li>
+      <li><a href="industries.html" data-t="nav_industries">Industries</a></li>
+      <li><a href="contact.html" data-t="nav_contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">عربي</button>
+      </div>
+      <a href="contact.html" class="nav-cta" data-t="nav_cta">Get in Touch</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="home.html" data-t="nav_home">Home</a>
+  <a href="about.html" data-t="nav_about">About</a>
+  <a href="partner-portal.html" style="color:var(--teal);" data-t="pp_nav_item">FSV Partner Portal</a>
+  <a href="services.html" data-t="nav_services">Services</a>
+  <a href="industries.html" data-t="nav_industries">Industries</a>
+  <a href="contact.html" data-t="nav_contact">Contact</a>
+  <a href="contact.html" class="mob-cta" data-t="nav_cta">Get in Touch</a>
+  <div class="mobile-lang">
+    <button class="mob-lang-btn active" data-lang="en">English</button>
+    <button class="mob-lang-btn" data-lang="ar">عربي</button>
+  </div>
+</div>
+
+<!-- BANNER -->
+<section class="portal-banner" id="main-content">
+  <div class="portal-banner-grid"></div>
+  <div class="wrap">
+    <div class="portal-banner-inner">
+      <div>
+        <div class="portal-badge"><span class="portal-badge-dot"></span><span data-t="pp_badge">Product · FSV Partner Portal</span></div>
+        <h1><span data-t="pp_h1a">The professional</span><br><span data-t="pp_h1b">gateway for your</span> <em data-t="pp_h1em">partners.</em></h1>
+        <p class="portal-sub" data-t="pp_sub">An enterprise-grade, fully white-labelled command centre that unifies project delivery, revenue intelligence, workforce, and documents — in one sovereign platform.</p>
+        <div class="banner-actions">
+          <a href="contact.html?subject=Partner+Portal+Demo" class="btn btn-teal"><span data-t="pp_cta1">Request a Demo</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          <a href="mailto:info@fsv-tech.com?subject=FSV%20Partner%20Portal%20Quote" class="btn btn-hero-ghost"><span data-t="pp_cta2">Get a Quote</span></a>
+        </div>
+        <div class="portal-stats">
+          <div><div class="ps-n">6</div><div class="ps-l" data-t="pp_stat1_l">Core Modules</div></div>
+          <div><div class="ps-n">100%</div><div class="ps-l" data-t="pp_stat2_l">White-Label</div></div>
+          <div><div class="ps-n">QAR</div><div class="ps-l" data-t="pp_stat3_l">Native Currency</div></div>
+        </div>
+      </div>
+      <div class="fade">
+        <div class="portal-screen">
+          <div class="screen-bar"><span></span><span></span><span></span></div>
+          <img src="portal-screens/overview.png" alt="FSV Partner Portal Overview Dashboard"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Project Portfolio</span><span class="sep">·</span><span>Revenue Intelligence</span><span class="sep">·</span><span>Workflow Management</span><span class="sep">·</span><span>Workforce &amp; HR</span><span class="sep">·</span><span>Document Vault</span><span class="sep">·</span><span>White-Label Identity</span><span class="sep">·</span><span>General Ledger</span><span class="sep">·</span><span>Sovereign Platform</span><span class="sep">·</span>
+    <span>Project Portfolio</span><span class="sep">·</span><span>Revenue Intelligence</span><span class="sep">·</span><span>Workflow Management</span><span class="sep">·</span><span>Workforce &amp; HR</span><span class="sep">·</span><span>Document Vault</span><span class="sep">·</span><span>White-Label Identity</span><span class="sep">·</span><span>General Ledger</span><span class="sep">·</span><span>Sovereign Platform</span><span class="sep">·</span>
+  </div>
+</div>
+
+<!-- Feature cards -->
+<section class="section" style="background:#fff;">
+  <div class="wrap">
+    <div class="feat-intro fade">
+      <div class="eyebrow" data-t="pp_feat_ey">What's Inside</div>
+      <h2 data-t="pp_feat_h">Every module your enterprise operation demands.</h2>
+      <p data-t="pp_feat_p">Six fully integrated modules — purpose-built for government agencies, enterprises, and professional services firms operating in Qatar.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card fade"><div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><h3 data-t="pp_f1_h">Command Pulse Overview</h3><p data-t="pp_f1_p">Real-time capital velocity, active pipelines, workload pressure, and critical action priorities — surfaced the moment you log in.</p></div>
+      <div class="feat-card fade d1"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div><h3 data-t="pp_f2_h">Project Portfolio</h3><p data-t="pp_f2_p">End-to-end lifecycle governance — Active, Pipeline, Completed, On Hold — with QAR budget tracking and milestone delivery per engagement.</p></div>
+      <div class="feat-card fade d2"><div class="feat-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3 data-t="pp_f3_h">Workflow &amp; Work Items</h3><p data-t="pp_f3_p">Master backlog and sprint management across all active projects. Assign, prioritise, and track deliverables at any granularity.</p></div>
+      <div class="feat-card fade"><div class="feat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3 data-t="pp_f4_h">Revenue &amp; General Ledger</h3><p data-t="pp_f4_p">Full financial module: OPEX, CAPEX, TAX categorisation; fiscal period navigation; inflow/outflow velocity; exportable QAR statements.</p></div>
+      <div class="feat-card fade d1"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><h3 data-t="pp_f5_h">Workforce &amp; HR Hub</h3><p data-t="pp_f5_p">Manage teams across Engineering, Operations, Executive, and HR with role-based access, personnel records, and department-level health metrics.</p></div>
+      <div class="feat-card fade d2"><div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><h3 data-t="pp_f6_h">Secure Document Vault</h3><p data-t="pp_f6_p">Centralised repository for legal contracts, financial statements, and project assets — categorised, searchable, and audit-trailed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE SECTIONS -->
+<section class="showcase">
+  <div class="wrap"><div class="showcase-inner">
+    <div class="fade"><div class="sc-eyebrow" data-t="pp_s1_ey">Module 01 — Overview</div><h2><span data-t="pp_s1_h1">Your command centre.</span> <em data-t="pp_s1_hem">Live.</em></h2><p data-t="pp_s1_p">The moment you log in, Command Pulse surfaces your most pressing priorities. Action items, financial KPIs, and pipeline health are front and centre — no hunting through menus.</p><ul class="sc-bullets"><li data-t="pp_s1_b1">Immediate action priorities flagged and ranked automatically</li><li data-t="pp_s1_b2">Net capital velocity, pipeline count, and workload pressure at a glance</li><li data-t="pp_s1_b3">Workstream Stream and Critical Alerts in two clicks</li><li data-t="pp_s1_b4">KPI Metrics panel for trend analysis across periods</li></ul></div>
+    <div class="fade d1"><div class="sc-frame"><img src="portal-screens/overview.png" alt="Overview Dashboard"/></div><span class="sc-label" data-t="pp_s1_lbl">Overview · Command Pulse</span></div>
+  </div></div>
+</section>
+
+<section class="showcase alt">
+  <div class="wrap"><div class="showcase-inner flip">
+    <div class="fade"><div class="sc-eyebrow" data-t="pp_s2_ey">Module 02 — Portfolio</div><h2><span data-t="pp_s2_h1">Full-spectrum project</span> <em data-t="pp_s2_hem">governance.</em></h2><p data-t="pp_s2_p">Every active engagement, pipeline opportunity, and completed delivery — visible in one place. Budget figures, status badges, and milestone tracking give complete delivery confidence.</p><ul class="sc-bullets"><li data-t="pp_s2_b1">Active, Pipeline, Completed, and On-Hold project states</li><li data-t="pp_s2_b2">Per-project budget tracking in QAR</li><li data-t="pp_s2_b3">One-click drill-down to project-level detail</li><li data-t="pp_s2_b4">Portfolio Analysis view for cross-account performance</li></ul></div>
+    <div class="fade d1"><div class="sc-frame"><img src="portal-screens/portfolio.png" alt="Project Portfolio"/></div><span class="sc-label" data-t="pp_s2_lbl">Portfolio · All Projects</span></div>
+  </div></div>
+</section>
+
+<section class="showcase">
+  <div class="wrap"><div class="showcase-inner">
+    <div class="fade"><div class="sc-eyebrow" data-t="pp_s3_ey">Module 03 — Revenue</div><h2><span data-t="pp_s3_h1">Integrated general</span> <em data-t="pp_s3_hem">ledger.</em></h2><p data-t="pp_s3_p">A full financial intelligence layer — not just transaction logs. Total receipts, expenditure, current liquidity, and net margin at the top. Granular category drilldown below.</p><ul class="sc-bullets"><li data-t="pp_s3_b1">QAR-native with fiscal period navigation (month / year)</li><li data-t="pp_s3_b2">Financial velocity bar: credits vs debits at a glance</li><li data-t="pp_s3_b3">TAX, OPEX, COGS, CAPEX category drilldown</li><li data-t="pp_s3_b4">Export Statement for reporting and compliance</li></ul></div>
+    <div class="fade d1"><div class="sc-frame"><img src="portal-screens/ledger.png" alt="General Ledger"/></div><span class="sc-label" data-t="pp_s3_lbl">Revenue · Master Ledger</span></div>
+  </div></div>
+</section>
+
+<section class="showcase alt">
+  <div class="wrap"><div class="showcase-inner flip">
+    <div class="fade"><div class="sc-eyebrow" data-t="pp_s4_ey">Module 04 — Work Items</div><h2><span data-t="pp_s4_h1">Delivery-grade</span> <em data-t="pp_s4_hem">workflow management.</em></h2><p data-t="pp_s4_p">Track every task, across every project, in a single master backlog. Move items from To Do through In Progress, Under Review, and Completed — with full cross-project visibility.</p><ul class="sc-bullets"><li data-t="pp_s4_b1">Master Backlog across all active projects simultaneously</li><li data-t="pp_s4_b2">Per-project filtered views for delivery teams</li><li data-t="pp_s4_b3">Weekly Planner for sprint-style scheduling</li><li data-t="pp_s4_b4">Assignee initials, due dates, and status on every item</li></ul></div>
+    <div class="fade d1"><div class="sc-frame"><img src="portal-screens/workflows.png" alt="Workflows"/></div><span class="sc-label" data-t="pp_s4_lbl">Work Items · Master Backlog</span></div>
+  </div></div>
+</section>
+
+<section class="showcase">
+  <div class="wrap"><div class="showcase-inner">
+    <div class="fade"><div class="sc-eyebrow" data-t="pp_s5_ey">Module 05 — Workforce</div><h2><span data-t="pp_s5_h1">Your people.</span> <em data-t="pp_s5_hem">Organised.</em></h2><p data-t="pp_s5_p">A clean, structured directory for your entire organisation. Filter by department, view roles at a glance, and take direct actions — all within the interface your team already uses daily.</p><ul class="sc-bullets"><li data-t="pp_s5_b1">Department breakdown: Executive, Engineering, Operations, HR</li><li data-t="pp_s5_b2">Per-person role, title, and department badge</li><li data-t="pp_s5_b3">Add, edit, and message team members directly</li><li data-t="pp_s5_b4">Organisational health metrics at department level</li></ul></div>
+    <div class="fade d1"><div class="sc-frame"><img src="portal-screens/workforce.png" alt="Workforce"/></div><span class="sc-label" data-t="pp_s5_lbl">Workforce · All Personnel</span></div>
+  </div></div>
+</section>
+
+<section class="showcase alt">
+  <div class="wrap"><div class="showcase-inner flip">
+    <div class="fade"><div class="sc-eyebrow" data-t="pp_s6_ey">Module 06 — Documents</div><h2><span data-t="pp_s6_h1">Every file.</span> <em data-t="pp_s6_hem">Secured and found.</em></h2><p data-t="pp_s6_p">A centralised repository with structured categorisation — Legal, Financial, Project Assets, Internal. No more searching across drives and email. Every document tagged, searchable, and audit-logged.</p><ul class="sc-bullets"><li data-t="pp_s6_b1">Category-based filing: Legal, Financial, Project, Internal</li><li data-t="pp_s6_b2">Uploader attribution and file size on every document</li><li data-t="pp_s6_b3">Full-text search across the entire repository</li><li data-t="pp_s6_b4">Download and archive controls with access tracking</li></ul></div>
+    <div class="fade d1"><div class="sc-frame"><img src="portal-screens/documents.png" alt="Documents"/></div><span class="sc-label" data-t="pp_s6_lbl">Documents · All Files</span></div>
+  </div></div>
+</section>
+
+<section class="showcase">
+  <div class="wrap"><div class="showcase-inner">
+    <div class="fade"><div class="sc-eyebrow" data-t="pp_s7_ey">White-Label Engine</div><h2><span data-t="pp_s7_h1">Your brand.</span> <em data-t="pp_s7_hem">Not ours.</em></h2><p data-t="pp_s7_p">Replace every visual identity element — logo, primary colour, secondary accent — and deploy the change live across the entire portal instantly. Each client gets a genuinely native experience.</p><ul class="sc-bullets"><li data-t="pp_s7_b1">Logo replacement with display width and rendering mode control</li><li data-t="pp_s7_b2">Primary focal colour and secondary accent palette configuration</li><li data-t="pp_s7_b3">Infrastructure, Security, and System Audit panels</li><li data-t="pp_s7_b4">Deployment Sync: propagates to all active sessions in real-time</li></ul></div>
+    <div class="fade d1"><div class="sc-frame"><img src="portal-screens/settings.png" alt="White-Label Settings"/></div><span class="sc-label" data-t="pp_s7_lbl">Settings · Identity &amp; Assets</span></div>
+  </div></div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="wrap">
+    <div class="gallery-header fade">
+      <div class="eyebrow" data-t="pp_gallery_ey">Full Platform Tour</div>
+      <h2 data-t="pp_gallery_h">Every screen. One platform.</h2>
+      <p data-t="pp_gallery_p">Hover to pause. Every module shown exactly as it ships.</p>
+    </div>
+  </div>
+  <div class="gallery-track-outer">
+    <div class="gallery-track">
+      <div class="gallery-item"><img src="portal-screens/login.png" alt="Login"/></div>
+      <div class="gallery-item"><img src="portal-screens/overview.png" alt="Overview"/></div>
+      <div class="gallery-item"><img src="portal-screens/portfolio.png" alt="Portfolio"/></div>
+      <div class="gallery-item"><img src="portal-screens/workflows.png" alt="Workflows"/></div>
+      <div class="gallery-item"><img src="portal-screens/ledger.png" alt="Ledger"/></div>
+      <div class="gallery-item"><img src="portal-screens/workforce.png" alt="Workforce"/></div>
+      <div class="gallery-item"><img src="portal-screens/documents.png" alt="Documents"/></div>
+      <div class="gallery-item"><img src="portal-screens/settings.png" alt="Settings"/></div>
+      <div class="gallery-item"><img src="portal-screens/ledger-dark.png" alt="Ledger Dark"/></div>
+      <div class="gallery-item"><img src="portal-screens/login.png" alt="Login"/></div>
+      <div class="gallery-item"><img src="portal-screens/overview.png" alt="Overview"/></div>
+      <div class="gallery-item"><img src="portal-screens/portfolio.png" alt="Portfolio"/></div>
+      <div class="gallery-item"><img src="portal-screens/workflows.png" alt="Workflows"/></div>
+      <div class="gallery-item"><img src="portal-screens/ledger.png" alt="Ledger"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="portal-cta">
+  <div class="wrap">
+    <div class="portal-cta-inner fade">
+      <h2><span data-t="pp_cta_h1">Ready to give your partners a</span> <em data-t="pp_cta_hem">professional gateway?</em></h2>
+      <p data-t="pp_cta_p">Contact us for a personalised demo and a tailored quotation for your organisation.</p>
+      <div class="portal-cta-actions">
+        <a href="contact.html?subject=Partner+Portal+Demo" class="btn btn-teal"><span data-t="pp_cta1">Request a Demo</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a href="mailto:info@fsv-tech.com?subject=FSV%20Partner%20Portal" class="btn btn-hero-ghost"><span data-t="pp_cta_btn2">Email Us Directly</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="images/logo.png" alt="FSV Tech" class="footer-logo"/>
+        <p class="footer-tagline" data-t="footer_tagline">Enterprise AI consultancy and sovereign technology solutions for Qatar's public and private sectors.</p>
+      </div>
+      <div class="footer-col"><h5 data-t="footer_col1_h">Company</h5><ul><li><a href="about.html" data-t="nav_about">About</a></li><li><a href="services.html" data-t="nav_services">Services</a></li><li><a href="industries.html" data-t="nav_industries">Industries</a></li><li><a href="contact.html" data-t="nav_contact">Contact</a></li></ul></div>
+      <div class="footer-col"><h5 data-t="pp_footer_products">Products</h5><ul><li><a href="partner-portal.html">FSV Partner Portal</a></li></ul></div>
+      <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="mailto:info@fsv-tech.com">info@fsv-tech.com</a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-t="footer_copy">© 2026 FSV Tech Consulting &amp; Services.</span>
+    <div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
