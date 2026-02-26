@@ -47,53 +47,57 @@
 .hero-eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--teal); }
 .hero h1 { font-size: clamp(2.8rem, 4.5vw, 4.4rem); font-weight: 700; line-height: 1.06; letter-spacing: -0.035em; color: #fff; margin-bottom: 1.5rem; }
 .hero h1 em { font-style: normal; color: var(--teal); }
-.hero-desc { font-size: 1rem; color: rgba(255,255,255,.55); line-height: 1.8; max-width: 460px; margin-bottom: 2.5rem; }
+.hero-desc { font-size: 1rem; color: rgba(255,255,255,.72); line-height: 1.8; max-width: 460px; margin-bottom: 2.5rem; }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 .btn-hero-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2); }
 .btn-hero-ghost:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); }
 .hero-card { background: rgba(10,10,10,.65); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 32px; backdrop-filter: blur(18px); }
-.hero-card-label { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,.35); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem; }
+.hero-card-label { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,.55); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.2rem; }
 .service-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
 .svc-pill { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
 .svc-pill.accent { background: var(--teal); border-color: var(--teal); }
-.svc-pill-num { font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,.35); min-width: 22px; }
-.svc-pill.accent .svc-pill-num { color: rgba(255,255,255,.7); }
-.svc-pill-name { font-size: 0.875rem; font-weight: 600; color: #fff; }
+.svc-pill-num { font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,.55); min-width: 22px; }
+.svc-pill.accent .svc-pill-num { color: rgba(255,255,255,.8); }
+.svc-pill-name { font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,.75); }
+.svc-pill.accent .svc-pill-name { color: #fff; }
+.svc-pill-arrow { margin-left: auto; opacity: 0; transition: opacity .2s, transform .2s; flex-shrink: 0; }
+.svc-pill:hover .svc-pill-arrow, .svc-pill.accent .svc-pill-arrow { opacity: 1; }
+.svc-pill.accent .svc-pill-arrow { color: rgba(255,255,255,.8); }
+.svc-pill:hover .svc-pill-arrow { transform: translateX(3px); }
 .hero-card-divider { height: 1px; background: rgba(255,255,255,.08); margin-bottom: 1.5rem; }
 .hero-card-items { display: flex; flex-direction: column; gap: 8px; }
-.hci { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: rgba(255,255,255,.48); }
+.hci { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: rgba(255,255,255,.68); }
 .hci::before { content: ''; width: 4px; height: 4px; background: var(--teal); border-radius: 50%; flex-shrink: 0; }
 .ticker-wrap { background: var(--black3); border-top: 1px solid var(--border-dark); overflow: hidden; padding: 13px 0; }
 .ticker-inner { display: flex; white-space: nowrap; animation: ticker 28s linear infinite; }
 .ticker-inner:hover { animation-play-state: paused; }
-.ticker-item { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,.42); letter-spacing: 0.1em; text-transform: uppercase; padding: 0 28px; }
+.ticker-item { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,.62); letter-spacing: 0.1em; text-transform: uppercase; padding: 0 28px; }
 .ticker-sep { color: rgba(0,184,160,.5); font-size: 0.55rem; }
 @keyframes ticker { to { transform: translateX(-50%); } }
 .svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 3.5rem; }
-.svc-card { padding: 36px 28px; border-right: 1px solid var(--border); transition: background .2s; }
+.svc-card { padding: 36px 28px; border-right: 1px solid var(--border); transition: background .5s ease, color .5s ease; }
 .svc-card:last-child { border-right: none; }
-.svc-card:hover { background: var(--light); }
 .svc-card.featured { background: var(--black); }
 .svc-card.featured:hover { background: var(--black2); }
-.svc-num { font-size: 2rem; font-weight: 700; color: rgba(0,184,160,.15); line-height: 1; margin-bottom: 1rem; }
-.svc-card.featured .svc-num { color: rgba(255,255,255,.07); }
+.svc-num { font-size: 2rem; font-weight: 700; color: rgba(0,184,160,.45); line-height: 1; margin-bottom: 1rem; }
+.svc-card.featured .svc-num { color: rgba(255,255,255,.28); }
 .svc-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 0.6rem; }
 .svc-card.featured h3 { color: #fff; }
 .svc-card p { font-size: 0.82rem; color: var(--grey); line-height: 1.7; margin-bottom: 1.2rem; }
-.svc-card.featured p { color: rgba(255,255,255,.48); }
+.svc-card.featured p { color: rgba(255,255,255,.68); }
 .svc-link { font-size: 0.78rem; font-weight: 600; color: var(--teal); display: inline-flex; align-items: center; gap: 5px; transition: gap .2s; }
 .svc-link:hover { gap: 9px; }
 .svc-link svg { width: 13px; height: 13px; }
 /* IMAGE BAND */
 .image-band { position: relative; height: 520px; overflow: hidden; display: flex; align-items: center; }
 .image-band-bg { position: absolute; inset: 0; background-image: url('images/ai-dashboard.jpg'); background-size: cover; background-position: center; }
-.image-band-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,10,10,.93) 0%, rgba(10,10,10,.78) 50%, rgba(10,10,10,.22) 100%); }
+.image-band-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,10,10,.95) 0%, rgba(10,10,10,.82) 55%, rgba(10,10,10,.50) 100%); }
 .image-band-content { position: relative; z-index: 2; max-width: var(--max); margin: 0 auto; padding: 0 40px; width: 100%; }
 /* WHY US */
-.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-.why-list { display: flex; flex-direction: column; gap: 2px; margin-top: 2rem; }
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.why-list { display: flex; flex-direction: column; gap: 2px; }
 .why-item { display: flex; align-items: flex-start; gap: 16px; padding: 20px; border-radius: 10px; transition: background .2s; }
-.why-item:hover { background: var(--light); }
+
 .why-icon { width: 40px; height: 40px; background: rgba(0,184,160,.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(0,184,160,.18); }
 .why-item h4 { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
 .why-item p { font-size: 0.82rem; color: var(--grey); line-height: 1.65; }
@@ -119,6 +123,7 @@
   .hero-card { max-width: 100%; }
   .image-band { height: auto; min-height: 320px; padding: 48px 0; }
   .image-band-content { padding: 0 20px; }
+  .image-band-overlay { background: rgba(10,10,10,.88) !important; }
   .svc-grid { grid-template-columns: 1fr 1fr; }
   .svc-card:nth-child(2) { border-right: none; }
   .svc-card:nth-child(1), .svc-card:nth-child(2) { border-bottom: 1px solid var(--border); }
@@ -135,13 +140,104 @@
   .svc-grid { grid-template-columns: 1fr; }
   .svc-card { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 20px; }
   .svc-card:last-child { border-bottom: none; }
-  .image-band-content h2 { font-size: 1.4rem !important; }
+  /* Hide hero card on mobile - too much info */
+  .hero-card { display: none; }
+  /* Hide compliance box on mobile - points only */
+  .why-visual { display: none; }
+  .why-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
 }
 
 </style>
 <link rel="canonical" href="https://fsv-tech.com/"/>
 </head>
 <body>
+<canvas id="bg-geo"></canvas>
+<script>
+(function(){
+  const cv = document.getElementById('bg-geo');
+  const cx = cv.getContext('2d');
+  let W, H;
+
+  // Detect if page is dark or light
+  const isDark = () => document.body && getComputedStyle(document.body).backgroundColor.includes('13,13,13') || 
+    document.body.style.background === '#0d0d0d';
+
+  function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+
+  // Shape types: triangle, line, diamond, cross
+  const SHAPES = 28;
+  const shapes = Array.from({length: SHAPES}, (_, i) => ({
+    type: i % 4,           // 0=tri, 1=line, 2=diamond, 3=cross
+    x: Math.random() * W,
+    y: Math.random() * H,
+    size: 8 + Math.random() * 22,
+    vx: (Math.random() - 0.5) * 0.22,
+    vy: (Math.random() - 0.5) * 0.22,
+    rot: Math.random() * Math.PI * 2,
+    vrot: (Math.random() - 0.5) * 0.004,
+    alpha: 0.04 + Math.random() * 0.07
+  }));
+
+  function drawTri(x, y, s, a){
+    cx.beginPath();
+    cx.moveTo(x, y - s);
+    cx.lineTo(x + s * 0.866, y + s * 0.5);
+    cx.lineTo(x - s * 0.866, y + s * 0.5);
+    cx.closePath();
+    cx.strokeStyle = `rgba(0,184,160,${a})`;
+    cx.lineWidth = 0.8;
+    cx.stroke();
+  }
+  function drawLine(x, y, s, rot, a){
+    cx.beginPath();
+    cx.moveTo(x - Math.cos(rot)*s*1.4, y - Math.sin(rot)*s*1.4);
+    cx.lineTo(x + Math.cos(rot)*s*1.4, y + Math.sin(rot)*s*1.4);
+    cx.strokeStyle = `rgba(0,184,160,${a * 0.7})`;
+    cx.lineWidth = 0.7;
+    cx.stroke();
+  }
+  function drawDiamond(x, y, s, a){
+    cx.beginPath();
+    cx.moveTo(x, y - s);
+    cx.lineTo(x + s * 0.6, y);
+    cx.lineTo(x, y + s);
+    cx.lineTo(x - s * 0.6, y);
+    cx.closePath();
+    cx.strokeStyle = `rgba(0,184,160,${a})`;
+    cx.lineWidth = 0.8;
+    cx.stroke();
+  }
+  function drawCross(x, y, s, a){
+    cx.strokeStyle = `rgba(0,184,160,${a * 0.6})`;
+    cx.lineWidth = 0.7;
+    cx.beginPath(); cx.moveTo(x - s, y); cx.lineTo(x + s, y); cx.stroke();
+    cx.beginPath(); cx.moveTo(x, y - s); cx.lineTo(x, y + s); cx.stroke();
+  }
+
+  function frame(){
+    cx.clearRect(0, 0, W, H);
+    for(const s of shapes){
+      cx.save();
+      cx.translate(s.x, s.y);
+      cx.rotate(s.rot);
+      switch(s.type){
+        case 0: drawTri(0, 0, s.size, s.alpha); break;
+        case 1: drawLine(0, 0, s.size, 0, s.alpha); break;
+        case 2: drawDiamond(0, 0, s.size, s.alpha); break;
+        case 3: drawCross(0, 0, s.size, s.alpha); break;
+      }
+      cx.restore();
+      s.x += s.vx; s.y += s.vy; s.rot += s.vrot;
+      if(s.x < -40) s.x = W + 40; else if(s.x > W + 40) s.x = -40;
+      if(s.y < -40) s.y = H + 40; else if(s.y > H + 40) s.y = -40;
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <nav id="nav" class="top">
   <div class="nav-inner">
@@ -160,7 +256,6 @@
       </li>
       <li><a href="services.html" data-t="nav_services">Services</a></li>
       <li><a href="industries.html" data-t="nav_industries">Industries</a></li>
-      <li><a href="contact.html" data-t="nav_contact">Contact</a></li>
     </ul>
     <div class="nav-right">
       <div class="lang-toggle">
@@ -179,7 +274,6 @@
   <a href="partner-portal.html" class="mob-sub" data-t="pp_nav_item">FSV Partner Portal</a>
   <a href="services.html" data-t="nav_services">Services</a>
   <a href="industries.html" data-t="nav_industries">Industries</a>
-  <a href="contact.html" data-t="nav_contact">Contact</a>
   <a href="contact.html" class="mob-cta" data-t="nav_cta">Get in Touch</a>
   <div class="mobile-lang">
     <button class="mob-lang-btn active" data-lang="en">English</button>
@@ -211,12 +305,12 @@
       </div>
     </div>
     <div class="hero-card fade d2">
-      <div class="hero-card-label">Practice Areas</div>
-      <div class="service-stack">
-        <div class="svc-pill accent"><span class="svc-pill-num">01</span><span class="svc-pill-name" data-t="home_s2_0_title">Web Development</span></div>
-        <div class="svc-pill"><span class="svc-pill-num">02</span><span class="svc-pill-name" data-t="home_s2_1_title">AI Consultancy</span></div>
-        <div class="svc-pill"><span class="svc-pill-num">03</span><span class="svc-pill-name" data-t="home_s2_2_title">Software Engineering</span></div>
-        <div class="svc-pill"><span class="svc-pill-num">04</span><span class="svc-pill-name" data-t="home_s2_3_title">IT Infrastructure</span></div>
+      <div class="hero-card-label" data-t="home_card_label">Practice Areas</div>
+      <div class="service-stack" id="practiceStack">
+        <div class="svc-pill accent" onclick="selectPill(this)" data-href="services.html#web"><span class="svc-pill-num" data-t="num_01">01</span><span class="svc-pill-name" data-t="home_s2_0_title">Web Development</span><svg class="svc-pill-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+        <div class="svc-pill" onclick="selectPill(this)" data-href="services.html#ai"><span class="svc-pill-num" data-t="num_02">02</span><span class="svc-pill-name" data-t="home_s2_1_title">AI Consultancy</span><svg class="svc-pill-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+        <div class="svc-pill" onclick="selectPill(this)" data-href="services.html#software"><span class="svc-pill-num" data-t="num_03">03</span><span class="svc-pill-name" data-t="home_s2_2_title">Software Engineering</span><svg class="svc-pill-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+        <div class="svc-pill" onclick="selectPill(this)" data-href="services.html#infra"><span class="svc-pill-num" data-t="num_04">04</span><span class="svc-pill-name" data-t="home_s2_3_title">IT Infrastructure</span><svg class="svc-pill-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
       </div>
       <div class="hero-card-divider"></div>
       <div class="hero-card-items">
@@ -240,9 +334,9 @@
 <div class="stat-strip">
   <div class="stat-strip-inner">
     <div class="stat-item"><div class="stat-num">100<span>%</span></div><div class="stat-lbl" data-t="home_stat1_l">Sovereign Data</div></div>
-    <div class="stat-item"><div class="stat-num">4</div><div class="stat-lbl">Practice Areas</div></div>
-    <div class="stat-item"><div class="stat-num"><span>HQ</span></div><div class="stat-lbl" data-t="home_stat3_l">Qatar HQ</div></div>
-    <div class="stat-item"><div class="stat-num">2030</div><div class="stat-lbl">Vision Aligned</div></div>
+    <div class="stat-item"><div class="stat-num" data-t="num_4">4</div><div class="stat-lbl" data-t="home_stat2_l">Practice Areas</div></div>
+    <div class="stat-item"><div class="stat-num" data-t="num_2026">2026</div><div class="stat-lbl" data-t="home_stat3_l">Founded</div></div>
+    <div class="stat-item"><div class="stat-num" data-t="num_2030">2030</div><div class="stat-lbl" data-t="home_stat4_l">Vision Aligned</div></div>
   </div>
 </div>
 
@@ -255,25 +349,25 @@
     </div>
     <div class="svc-grid fade d1">
       <div class="svc-card featured">
-        <div class="svc-num">01</div>
+        <div class="svc-num" data-t="num_01">01</div>
         <h3><span data-t="home_s2_0_title">Web Development</span></h3>
         <p><span data-t="home_s2_0_desc">Bespoke, high-performance websites and web applications — engineered for security, speed, and a seamless user experience.</span></p>
         <a href="services.html#web" class="svc-link"><span data-t="home_s2_link">Learn more</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       </div>
       <div class="svc-card">
-        <div class="svc-num">02</div>
+        <div class="svc-num" data-t="num_02">02</div>
         <h3><span data-t="home_s2_1_title">AI Consultancy</span></h3>
         <p><span data-t="home_s2_1_desc">Sovereign LLM deployment, AI strategy, and intelligent workflow automation for government and enterprise.</span></p>
         <a href="services.html#ai" class="svc-link"><span data-t="home_s2_link">Learn more</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       </div>
       <div class="svc-card">
-        <div class="svc-num">03</div>
+        <div class="svc-num" data-t="num_03">03</div>
         <h3><span data-t="home_s2_2_title">Software Engineering</span></h3>
         <p><span data-t="home_s2_2_desc">E-government portals, enterprise applications, and mission-critical platforms built to endure.</span></p>
         <a href="services.html#software" class="svc-link"><span data-t="home_s2_link">Learn more</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       </div>
       <div class="svc-card">
-        <div class="svc-num">04</div>
+        <div class="svc-num" data-t="num_04">04</div>
         <h3><span data-t="home_s2_3_title">IT Infrastructure</span></h3>
         <p><span data-t="home_s2_3_desc">Data center and cloud infrastructure management with full compliance and continuous availability.</span></p>
         <a href="services.html#infra" class="svc-link"><span data-t="home_s2_link">Learn more</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
@@ -289,7 +383,7 @@
   <div class="image-band-content">
     <div class="eyebrow fade" style="margin-bottom:14px;color:rgba(0,184,160,.85)"><span data-t="home_s3_eyebrow">Why FSV Tech</span></div>
     <h2 class="fade" style="font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:#fff;letter-spacing:-0.03em;line-height:1.1;margin-bottom:12px;max-width:520px;"><span data-t="home_s3_title">Built for</span> <em style="font-style:normal;color:var(--teal);" data-t="home_s3_title_em">Qatar's standards.</em></h2>
-    <p class="fade" style="font-size:0.95rem;color:rgba(255,255,255,.55);max-width:420px;line-height:1.8;margin-bottom:1.8rem;"><span data-t="home_s3_p1">We operate at the intersection of national ambition and enterprise technology — delivering solutions aligned with Qatar's sovereign vision.</span></p>
+    <p class="fade" style="font-size:0.95rem;color:rgba(255,255,255,.72);max-width:420px;line-height:1.8;margin-bottom:1.8rem;"><span data-t="home_s3_p1">We operate at the intersection of national ambition and enterprise technology — delivering solutions aligned with Qatar's sovereign vision.</span></p>
     <a href="about.html" class="btn btn-teal fade"><span data-t="home_cta2">About Us</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
   </div>
 </div>
@@ -297,11 +391,10 @@
 <!-- COMPLIANCE / WHY US -->
 <section class="section" style="background:var(--lighter);border-top:1px solid var(--border);">
   <div class="wrap">
+    <div class="eyebrow fade" style="margin-bottom:14px"><span data-t="home_diff_ey">Our Differentiators</span></div>
+    <h2 class="fade" style="font-size:clamp(1.5rem,2.5vw,2rem);font-weight:700;color:var(--ink);letter-spacing:-0.03em;margin-bottom:40px;line-height:1.25;"><span data-t="home_s3_std_h">Every standard.</span><br><em style="font-style:normal;color:var(--teal);" data-t="home_s3_std_em">Every requirement.</em></h2>
     <div class="why-grid">
-      <div>
-        <div class="eyebrow fade" style="margin-bottom:14px"><span>Our Differentiators</span></div>
-        <h2 class="fade" style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;color:var(--ink);letter-spacing:-0.03em;margin-bottom:16px;line-height:1.15;"><span data-t="home_s3_std_h">Every standard.</span> <em style="font-style:normal;color:var(--teal);" data-t="home_s3_std_em">Every requirement.</em></h2>
-        <div class="why-list">
+      <div class="why-list">
           <div class="why-item fade d1">
             <div class="why-icon"><svg viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.5" width="18" height="18"><path d="M10 2L10 4M10 16L10 18M2 10L4 10M16 10L18 10M4.93 4.93L6.34 6.34M13.66 13.66L15.07 15.07M4.93 15.07L6.34 13.66M13.66 6.34L15.07 4.93"/><circle cx="10" cy="10" r="3"/></svg></div>
             <div><h4><span data-t="home_s3_1_t">Sovereign by Design</span></h4><p><span data-t="home_s3_1_d">Every solution adheres to Qatar's national security and data sovereignty standards.</span></p></div>
@@ -318,7 +411,6 @@
             <div class="why-icon"><svg viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.5" width="18" height="18"><path d="M10 11a3 3 0 100-6 3 3 0 000 6z"/><path d="M4 17c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke-linecap="round"/></svg></div>
             <div><h4><span data-t="home_s3_4_t">Local Presence</span></h4><p><span data-t="home_s3_4_d">Headquartered in Doha with deep knowledge of Qatar's regulatory environment.</span></p></div>
           </div>
-        </div>
       </div>
       <div class="why-visual fade d2">
         <div class="compliance-label" data-t="home_compliance_label">Compliance & Standards</div>
@@ -356,9 +448,8 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand"><img src="images/logo.png" alt="FSV Tech"/><p><span data-t="footer_tagline">Enterprise AI consultancy and sovereign technology solutions for Qatar's public and private sectors.</span></p></div>
-    <div class="footer-col"><h5 data-t="footer_col1_h">Company</h5><ul><li><a href="about.html" data-t="nav_about">About</a></li><li><a href="services.html" data-t="nav_services">Services</a></li><li><a href="industries.html" data-t="nav_industries">Industries</a></li><li><a href="contact.html" data-t="nav_contact">Contact</a></li></ul></div>
-    <div class="footer-col"><h5 data-t="footer_col2_h">Services</h5><ul><li><a href="services.html#web" data-t="home_s2_0_title">Web Development</a></li><li><a href="services.html#ai" data-t="home_s2_1_title">AI Consultancy</a></li><li><a href="services.html#software" data-t="home_s2_2_title">Software Engineering</a></li><li><a href="services.html#infra" data-t="home_s2_3_title">IT Infrastructure</a></li></ul></div>
-    <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#4a23242c250a2c393c673e2f292264292527" data-t="con_mail_v"><span class="__cf_email__" data-cfemail="aac3c4ccc5eaccd9dc87decfc9c284c9c5c7">[email&#160;protected]</span></a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
+    <div class="footer-col footer-nav-col"><h5 data-t="footer_col2_h">Services</h5><ul><li><a href="services.html#web" data-t="home_s2_0_title">Web Development</a></li><li><a href="services.html#ai" data-t="home_s2_1_title">AI Consultancy</a></li><li><a href="services.html#software" data-t="home_s2_2_title">Software Engineering</a></li><li><a href="services.html#infra" data-t="home_s2_3_title">IT Infrastructure</a></li></ul></div>
+    <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#4a23242c250a2c393c673e2f292264292527" data-t="con_mail_v"><span class="__cf_email__" data-cfemail="aac3c4ccc5eaccd9dc87decfc9c284c9c5c7">[email&#160;protected]</span></a></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span data-t="footer_copy">&#169; 2026 FSV Tech Consulting &amp; Services.</span>
@@ -382,5 +473,38 @@ window.addEventListener('load',()=>{ const b=document.getElementById('heroBg'); 
     }
     for(const n of nodes){ ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(0,184,160,0.14)';ctx.fill(); n.x+=n.vx; n.y+=n.vy; if(n.x<-10)n.x=W
 <script src="main.js"></script>
+<script>
+function selectPill(el){
+  document.querySelectorAll('#practiceStack .svc-pill').forEach(p=>p.classList.remove('accent'));
+  el.classList.add('accent');
+  const href = el.getAttribute('data-href');
+  if(href) setTimeout(()=>{ window.location.href = href; }, 220);
+}
+document.querySelectorAll('#practiceStack .svc-pill').forEach(p=>{p.style.cursor='pointer';});
+
+// Auto-cycle service cards
+(function(){
+  const cards = document.querySelectorAll('.svc-grid .svc-card');
+  if(!cards.length) return;
+  let current = 0;
+  function activate(i){
+    cards.forEach((c,idx)=>{
+      const isFeat = idx === i;
+      c.classList.toggle('featured', isFeat);
+      // sync text colours
+      const num = c.querySelector('.svc-num');
+      const h3  = c.querySelector('h3');
+      const p   = c.querySelector('p');
+      const lnk = c.querySelector('.svc-link');
+      if(num) num.style.color = isFeat ? 'rgba(255,255,255,.28)' : '';
+      if(h3)  h3.style.color  = isFeat ? '#fff' : '';
+      if(p)   p.style.color   = isFeat ? 'rgba(255,255,255,.68)' : '';
+      if(lnk) lnk.style.color = isFeat ? 'var(--teal)' : '';
+    });
+    current = i;
+  }
+  setInterval(()=>{ activate((current+1) % cards.length); }, 2800);
+})();
+</script>
 </body>
 </html>
