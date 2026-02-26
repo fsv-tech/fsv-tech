@@ -20,69 +20,63 @@
 <link rel="stylesheet" href="style.css"/>
 <style>
 
-/* ── Product card ─────────────────────────────── */
-.prod-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
-  gap: 28px;
-  margin-top: 56px;
+/* ── Product listing layout ───────────────────────── */
+.prod-intro {
+  max-width: 600px; margin-bottom: 56px;
 }
 
+.prod-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
+  gap: 28px;
+}
+
+/* ── Product card ─────────────────────────────────── */
 .prod-card {
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: box-shadow .25s, transform .25s;
 }
 .prod-card:hover {
-  box-shadow: 0 16px 48px rgba(0,0,0,.09);
-  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.08);
+  transform: translateY(-2px);
 }
 
-.prod-card-screen {
-  position: relative;
+/* Screen preview area */
+.prod-card-visual {
   background: var(--black);
-  padding: 28px 28px 0;
+  position: relative;
   overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
-.prod-card-screen::after {
+.prod-card-visual::after {
   content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(0,184,160,.07) 0%, transparent 70%);
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(0,184,160,.08) 0%, transparent 70%);
   pointer-events: none;
 }
-.prod-card-screen-bar {
-  display: flex; align-items: center; gap: 5px;
-  background: #161616; border-radius: 7px 7px 0 0;
-  padding: 9px 12px; position: relative; z-index: 2;
-}
-.prod-card-screen-bar span { width: 8px; height: 8px; border-radius: 50%; }
-.prod-card-screen-bar span:nth-child(1){background:#ff5f57;}
-.prod-card-screen-bar span:nth-child(2){background:#febc2e;}
-.prod-card-screen-bar span:nth-child(3){background:#28c840;}
-.prod-card-screen img {
+.prod-card-visual img {
   width: 100%; display: block;
-  border-radius: 0; position: relative; z-index: 2;
-  mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  position: relative; z-index: 1;
 }
 
-/* placeholder screen when no image */
-.prod-card-screen-placeholder {
+/* Placeholder visual for coming soon */
+.prod-card-placeholder {
   height: 200px;
-  background:
-    linear-gradient(135deg, rgba(0,184,160,.04) 0%, transparent 60%),
-    repeating-linear-gradient(45deg, rgba(255,255,255,.015) 0px, rgba(255,255,255,.015) 1px, transparent 1px, transparent 16px);
   display: flex; align-items: center; justify-content: center;
-  border-radius: 0;
-  position: relative; z-index: 2;
+  background:
+    radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,184,160,.04) 0%, transparent 70%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, transparent 1px, transparent 20px);
+  position: relative; z-index: 1;
 }
-.prod-card-screen-placeholder svg {
-  width: 48px; height: 48px; stroke: rgba(0,184,160,.25); fill: none;
+.prod-card-placeholder svg {
+  width: 40px; height: 40px; stroke: rgba(0,184,160,.2); fill: none;
 }
 
 .prod-card-body {
@@ -90,6 +84,7 @@
   display: flex; flex-direction: column; flex: 1;
 }
 
+/* Status badge */
 .prod-status {
   display: inline-flex; align-items: center; gap: 7px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
@@ -101,10 +96,18 @@
 }
 @keyframes ppulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.35;transform:scale(1.6);} }
 
+.prod-soon-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--subtle); margin-bottom: 14px;
+}
+
 .prod-card h3 {
-  font-size: 1.35rem; font-weight: 700; color: var(--ink);
+  font-size: 1.3rem; font-weight: 700; color: var(--ink);
   letter-spacing: -0.025em; margin-bottom: 10px; line-height: 1.2;
 }
+.prod-card.soon h3 { color: var(--grey); }
+
 .prod-card-desc {
   font-size: 0.875rem; line-height: 1.8; color: var(--muted);
   margin-bottom: 20px; flex: 1;
@@ -121,126 +124,79 @@
   font-size: 0.82rem; padding: 9px 18px;
 }
 
-/* ── "Coming soon" card ───────────────────────── */
+/* Coming soon state */
 .prod-card.soon {
+  border-color: #e8e8e8;
   background: var(--lighter);
-  border-style: dashed;
-  border-color: #d0d0d0;
-  pointer-events: none;
-  opacity: .7;
 }
-.prod-card.soon .prod-card-screen {
+.prod-card.soon .prod-card-visual {
   background: #f0f0f0;
 }
-.prod-soon-tag {
-  display: inline-block; font-size: 0.68rem; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
-  background: #e8e8e8; border-radius: 4px; padding: 3px 10px; margin-bottom: 14px;
-}
 
-/* ── Philosophy strip ─────────────────────────── */
-.phil-strip {
-  background: var(--black);
-  padding: 80px 0;
+/* ── Philosophy section ───────────────────────────── */
+.phil-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 48px;
 }
-.phil-inner {
-  max-width: var(--max); margin: 0 auto; padding: 0 40px;
-  display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: center;
-}
-.phil-h {
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 700; color: #fff;
-  letter-spacing: -0.03em; line-height: 1.15; margin: 14px 0 20px;
-}
-.phil-h em { font-style: normal; color: var(--teal); }
-.phil-p { font-size: 0.9rem; line-height: 1.85; color: rgba(255,255,255,.45); }
-.phil-pillars {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-  border: 1px solid rgba(255,255,255,.07); border-radius: 16px; overflow: hidden;
-}
-.phil-pillar {
-  padding: 28px 24px; background: rgba(255,255,255,.02);
-  border-right: 1px solid rgba(255,255,255,.07);
-  border-bottom: 1px solid rgba(255,255,255,.07);
+.phil-card {
+  background: #fff;
+  padding: 32px 28px;
   transition: background .2s;
 }
-.phil-pillar:hover { background: rgba(0,184,160,.06); }
-.phil-pillar:nth-child(2n) { border-right: none; }
-.phil-pillar:nth-last-child(-n+2) { border-bottom: none; }
-.phil-pillar-icon { font-size: 1.2rem; margin-bottom: 8px; }
-.phil-pillar h4 { font-size: 0.875rem; font-weight: 600; color: #fff; margin-bottom: 5px; }
-.phil-pillar p { font-size: 0.78rem; line-height: 1.65; color: rgba(255,255,255,.38); }
-
-/* ── CTA band ─────────────────────────────────── */
-.cta-band {
-  background: var(--teal); padding: 72px 0; text-align: center;
+.phil-card:hover { background: var(--lighter); }
+.phil-icon {
+  width: 42px; height: 42px;
+  background: rgba(0,184,160,.07);
+  border: 1px solid rgba(0,184,160,.15);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; flex-shrink: 0;
 }
-.cta-band h2 {
-  font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: #fff;
-  letter-spacing: -0.03em; margin-bottom: 14px;
+.phil-card h4 {
+  font-size: 0.9rem; font-weight: 600; color: var(--ink);
+  margin-bottom: 6px;
 }
-.cta-band p { font-size: 0.95rem; color: rgba(255,255,255,.75); margin-bottom: 32px; }
-.cta-band .btn-white {
-  background: #fff; color: var(--teal);
-  font-size: 0.875rem; font-weight: 700;
-  padding: 13px 28px; border-radius: 8px;
-  display: inline-flex; align-items: center; gap: 8px;
-  transition: opacity .2s, transform .2s;
-}
-.cta-band .btn-white:hover { opacity: .88; transform: translateY(-1px); }
-.cta-band .btn-white svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform .2s; }
-.cta-band .btn-white:hover svg { transform: translateX(3px); }
-
-/* ── Dropdown styles (shared with partner-portal.html) ── */
-.nav-has-dropdown { position: relative; }
-.nav-dropdown {
-  display: none; position: absolute;
-  top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
-  background: #fff; border: 1px solid var(--border); border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0,0,0,.10); min-width: 210px; padding: 6px; z-index: 200;
-}
-.nav-has-dropdown:hover .nav-dropdown { display: block; }
-.nav-dropdown a {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 14px; border-radius: 6px;
-  font-size: 0.875rem; font-weight: 500; color: var(--grey);
-  white-space: nowrap; text-decoration: none;
-  transition: background .15s, color .15s;
-}
-.nav-dropdown a:hover { background: var(--light); color: var(--ink); }
-.nav-dropdown a.dd-active { color: var(--ink); font-weight: 600; }
-.nav-dropdown-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
-.nav-has-dropdown > a { display: flex; align-items: center; gap: 5px; }
-.nav-has-dropdown > a::after {
-  content: '';
-  border: 4px solid transparent; border-top-color: currentColor;
-  transform: translateY(2px); display: inline-block;
+.phil-card p {
+  font-size: 0.82rem; line-height: 1.7; color: var(--grey);
 }
 
-/* ── Mobile sub-label for Products ───────────── */
-.mob-section-label {
-  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--teal); padding: 12px 0 4px; pointer-events: none;
-  display: block;
+/* ── CTA band — matches about.html / industries.html pattern ── */
+.prod-cta {
+  background: var(--lighter);
+  border-top: 1px solid var(--border);
+  padding: 80px 0;
 }
-.mob-product-link {
-  font-size: 1.2rem !important;
-  padding: 4px 0 !important;
-  display: flex; align-items: center; gap: 10px;
+.prod-cta-inner {
+  max-width: var(--max); margin: 0 auto; padding: 0 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 40px; flex-wrap: wrap;
 }
-.mob-product-link::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%;
-  background: var(--teal); flex-shrink: 0; margin-top: 1px;
+.prod-cta h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700; color: var(--ink);
+  letter-spacing: -0.03em; line-height: 1.15;
+  margin-bottom: 8px;
+}
+.prod-cta p {
+  font-size: 0.9rem; color: var(--muted); line-height: 1.7; max-width: 400px;
 }
 
 @media(max-width: 960px) {
-  .phil-inner { grid-template-columns: 1fr; gap: 48px; }
-  .phil-pillars { grid-template-columns: 1fr; }
-  .phil-pillar { border-right: none !important; }
-  .phil-pillar:nth-last-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.07); }
-  .phil-pillar:last-child { border-bottom: none !important; }
+  .phil-grid { grid-template-columns: 1fr 1fr; }
+  .prod-cta { padding: 56px 0; }
+  .prod-cta-inner { flex-direction: column; align-items: flex-start; padding: 0 20px; gap: 24px; }
+  .prod-cta-inner .btn { width: 100%; justify-content: center; }
 }
 @media(max-width: 640px) {
   .prod-grid { grid-template-columns: 1fr; }
+  .phil-grid { grid-template-columns: 1fr; }
+  .phil-card { padding: 24px 20px; }
 }
 </style>
 <link rel="canonical" href="https://fsv-tech.com/products.html"/>
@@ -293,24 +249,21 @@
     <button class="mob-lang-btn" data-lang="ar">عربي</button>
   </div>
 </div>
-</div>
 
-</div>
-
-<!-- BANNER -->
+<!-- BANNER — matches every other inner page -->
 <div class="page-banner" id="main-content">
   <div class="wrap">
-    <div class="eyebrow" style="margin-bottom:18px"><span data-t="prod_banner_ey">Built by FSV Tech</span></div>
-    <h1><span data-t="prod_banner_h">Our </span><em data-t="prod_banner_hem">Products</em></h1>
-    <p><span data-t="prod_banner_p">Sovereign, enterprise-grade software built for Qatar's government and private sector — owned, operated, and continuously developed by FSV Tech.</span></p>
+    <div class="eyebrow fade" style="margin-bottom:18px"><span data-t="prod_banner_ey">Built by FSV Tech</span></div>
+    <h1 class="fade"><span data-t="prod_banner_h">Our </span><em data-t="prod_banner_hem">Products</em></h1>
+    <p class="fade" style="max-width:520px"><span data-t="prod_banner_p">Sovereign, enterprise-grade software built for Qatar's government and private sector — owned, operated, and continuously developed by FSV Tech.</span></p>
   </div>
 </div>
 
 <!-- PRODUCT LISTING -->
-<section class="section">
+<section class="section" id="products">
   <div class="wrap">
 
-    <div class="fade" style="max-width:600px;">
+    <div class="prod-intro fade">
       <div class="eyebrow" style="margin-bottom:14px"><span data-t="prod_list_ey">Available Now</span></div>
       <h2 style="font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:700;color:var(--ink);letter-spacing:-0.03em;line-height:1.15;margin-bottom:12px;">
         <span data-t="prod_list_h">One product. </span><em style="font-style:normal;color:var(--teal);" data-t="prod_list_hem">More on the way.</em>
@@ -322,8 +275,7 @@
 
       <!-- FSV Partner Portal -->
       <div class="prod-card fade d1">
-        <div class="prod-card-screen">
-          <div class="prod-card-screen-bar"><span></span><span></span><span></span></div>
+        <div class="prod-card-visual">
           <img src="portal-screens/overview.png" alt="FSV Partner Portal — Command Pulse Overview"/>
         </div>
         <div class="prod-card-body">
@@ -348,19 +300,21 @@
         </div>
       </div>
 
-      <!-- Coming Soon card -->
+      <!-- Coming Soon -->
       <div class="prod-card soon fade d2">
-        <div class="prod-card-screen">
-          <div class="prod-card-screen-bar"><span></span><span></span><span></span></div>
-          <div class="prod-card-screen-placeholder">
-            <svg viewBox="0 0 24 24" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <div class="prod-card-visual">
+          <div class="prod-card-placeholder">
+            <svg viewBox="0 0 24 24" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="3"/>
               <path d="M8 12h8M12 8v8"/>
             </svg>
           </div>
         </div>
         <div class="prod-card-body">
-          <div class="prod-soon-tag" data-t="prod_soon_tag">Coming Soon</div>
+          <div class="prod-soon-badge">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+            <span data-t="prod_soon_tag">Coming Soon</span>
+          </div>
           <h3 data-t="prod_soon_h">Next Product</h3>
           <p class="prod-card-desc" data-t="prod_soon_desc">We're building more. Our next product is currently in development — engineered to the same sovereign, enterprise-grade standard as the FSV Partner Portal.</p>
           <div class="prod-tags">
@@ -373,52 +327,84 @@
   </div>
 </section>
 
-<!-- PHILOSOPHY STRIP -->
-<div class="phil-strip">
-  <div class="phil-inner">
-    <div class="fade">
+<!-- PHILOSOPHY — matches about/services section pattern on white bg -->
+<section class="section" style="background:var(--lighter);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="fade" style="max-width:560px;margin-bottom:0;">
       <div class="eyebrow" style="margin-bottom:14px"><span data-t="prod_phil_ey">Our Product Philosophy</span></div>
-      <h2 class="phil-h"><span data-t="prod_phil_h">Software built to </span><em data-t="prod_phil_hem">last.</em></h2>
-      <p class="phil-p" data-t="prod_phil_p">Every FSV Tech product is designed for the long term — sovereign, auditable, and aligned with Qatar's national technology standards. We don't ship features. We ship systems.</p>
+      <h2 style="font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:700;color:var(--ink);letter-spacing:-0.03em;line-height:1.15;margin-bottom:12px;">
+        <span data-t="prod_phil_h">Software built to </span><em style="font-style:normal;color:var(--teal);" data-t="prod_phil_hem">last.</em>
+      </h2>
+      <p style="font-size:0.9rem;line-height:1.8;color:var(--muted);" data-t="prod_phil_p">Every FSV Tech product is designed for the long term — sovereign, auditable, and aligned with Qatar's national technology standards. We don't ship features. We ship systems.</p>
     </div>
-    <div class="fade d2">
-      <div class="phil-pillars">
-        <div class="phil-pillar">
-          <div class="phil-pillar-icon">🔒</div>
-          <h4 data-t="prod_pp1_h">Sovereign by Default</h4>
-          <p data-t="prod_pp1_p">Data stays within Qatar's jurisdiction. No third-party dependencies on foreign cloud infrastructure.</p>
+
+    <div class="phil-grid fade d2">
+
+      <!-- Sovereign -->
+      <div class="phil-card">
+        <div class="phil-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.5" width="20" height="20" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 2L4 5v5c0 3.55 2.56 6.88 6 7.73C13.44 16.88 16 13.55 16 10V5L10 2z"/>
+          </svg>
         </div>
-        <div class="phil-pillar">
-          <div class="phil-pillar-icon">⚙️</div>
-          <h4 data-t="prod_pp2_h">Enterprise-Grade Quality</h4>
-          <p data-t="prod_pp2_p">Production-hardened architecture built to handle national-scale workloads and mission-critical operations.</p>
-        </div>
-        <div class="phil-pillar">
-          <div class="phil-pillar-icon">🎨</div>
-          <h4 data-t="prod_pp3_h">Your Brand, Not Ours</h4>
-          <p data-t="prod_pp3_p">Full white-label identity control — logo, colours, and UX — so every touchpoint reflects your organisation.</p>
-        </div>
-        <div class="phil-pillar">
-          <div class="phil-pillar-icon">📈</div>
-          <h4 data-t="prod_pp4_h">Built to Scale</h4>
-          <p data-t="prod_pp4_p">Modular architecture designed to grow with your operations — from pilot deployment to enterprise rollout.</p>
-        </div>
+        <h4 data-t="prod_pp1_h">Sovereign by Default</h4>
+        <p data-t="prod_pp1_p">Data stays within Qatar's jurisdiction. No third-party dependencies on foreign cloud infrastructure.</p>
       </div>
+
+      <!-- Enterprise Grade -->
+      <div class="phil-card">
+        <div class="phil-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.5" width="20" height="20" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="7" height="7" rx="1.5"/>
+            <rect x="11" y="2" width="7" height="7" rx="1.5"/>
+            <rect x="2" y="11" width="7" height="7" rx="1.5"/>
+            <rect x="11" y="11" width="7" height="7" rx="1.5"/>
+          </svg>
+        </div>
+        <h4 data-t="prod_pp2_h">Enterprise-Grade Quality</h4>
+        <p data-t="prod_pp2_p">Production-hardened architecture built to handle national-scale workloads and mission-critical operations.</p>
+      </div>
+
+      <!-- White-label -->
+      <div class="phil-card">
+        <div class="phil-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.5" width="20" height="20" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="10" cy="8" r="3"/>
+            <path d="M3 17c0-3.31 3.13-6 7-6s7 2.69 7 6"/>
+            <path d="M14 3l1.5 1.5L17 3"/>
+          </svg>
+        </div>
+        <h4 data-t="prod_pp3_h">Your Brand, Not Ours</h4>
+        <p data-t="prod_pp3_p">Full white-label identity control — logo, colours, and UX — so every touchpoint reflects your organisation.</p>
+      </div>
+
+      <!-- Scalable -->
+      <div class="phil-card">
+        <div class="phil-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.5" width="20" height="20" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,14 7,9 11,13 18,5"/>
+            <polyline points="14,5 18,5 18,9"/>
+          </svg>
+        </div>
+        <h4 data-t="prod_pp4_h">Built to Scale</h4>
+        <p data-t="prod_pp4_p">Modular architecture designed to grow with your operations — from pilot deployment to enterprise rollout.</p>
+      </div>
+
     </div>
   </div>
-</div>
+</section>
 
-<!-- CTA BAND -->
-<div class="cta-band">
-  <div class="wrap">
+<!-- CTA — matches about.html .cta-row pattern exactly -->
+<div class="prod-cta">
+  <div class="prod-cta-inner">
     <div class="fade">
       <h2 data-t="prod_cta_h">Interested in deploying FSV Tech software?</h2>
       <p data-t="prod_cta_p">Contact us to discuss licensing, customisation, or a live demonstration for your organisation.</p>
-      <a href="contact.html" class="btn-white">
-        <span data-t="prod_cta_btn">Get in Touch</span>
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-      </a>
     </div>
+    <a href="contact.html" class="btn btn-primary fade d2">
+      <span data-t="prod_cta_btn">Get in Touch</span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
   </div>
 </div>
 
@@ -427,11 +413,12 @@
     <div class="footer-brand"><img src="images/logo.png" alt="FSV Tech"/><p><span data-t="footer_tagline">Enterprise AI consultancy and sovereign technology solutions for Qatar's public and private sectors.</span></p></div>
     <div class="footer-col"><h5 data-t="footer_col1_h">Company</h5><ul><li><a href="about.html" data-t="nav_about">About</a></li><li><a href="services.html" data-t="nav_services">Services</a></li><li><a href="industries.html" data-t="nav_industries">Industries</a></li><li><a href="contact.html" data-t="nav_contact">Contact</a></li></ul></div>
     <div class="footer-col"><h5 data-t="footer_col2_h">Services</h5><ul><li><a href="services.html#web" data-t="home_s2_0_title">Web Development</a></li><li><a href="services.html#ai" data-t="home_s2_1_title">AI Consultancy</a></li><li><a href="services.html#software" data-t="home_s2_2_title">Software Engineering</a></li><li><a href="services.html#infra" data-t="home_s2_3_title">IT Infrastructure</a></li></ul></div>
-    <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#4a23242c250a2c393c673e2f292264292527" data-t="con_mail_v"><span class="__cf_email__" data-cfemail="aac3c4ccc5eaccd9dc87decfc9c284c9c5c7">[email&#160;protected]</span></a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
+    <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="mailto:info@fsv-tech.com" data-t="con_mail_v">info@fsv-tech.com</a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span data-t="footer_copy">&#169; 2026 FSV Tech Consulting &amp; Services.</span>
-    <a href="signin.html" style="font-size:0.72rem;color:rgba(255,255,255,0.18);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,0.45)'" onmouseout="this.style.color='rgba(255,255,255,0.18)'">Employee Sign In</a><div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
+    <a href="signin.html" style="font-size:0.72rem;color:rgba(255,255,255,0.18);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,0.45)'" onmouseout="this.style.color='rgba(255,255,255,0.18)'">Employee Sign In</a>
+    <div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
   </div>
 </footer>
 
