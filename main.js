@@ -611,21 +611,49 @@ document.addEventListener('DOMContentLoaded', () => {
   const ham = document.getElementById('hamburger');
   const mob = document.getElementById('mobileMenu');
   if (ham && mob) {
+    // Inject close button if not already present
+    if (!mob.querySelector('.mobile-menu-close')) {
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'mobile-menu-close';
+      closeBtn.setAttribute('aria-label', 'Close menu');
+      closeBtn.innerHTML = '<span></span><span></span>';
+      mob.insertBefore(closeBtn, mob.firstChild);
+    }
+
     let open = false;
     const spans = ham.querySelectorAll('span');
-    ham.addEventListener('click', () => {
-      open = !open;
-      mob.classList.toggle('open', open);
-      document.body.style.overflow = open ? 'hidden' : '';
-      ham.setAttribute('aria-expanded', open);
-      spans[0].style.transform = open ? 'translateY(6.5px) rotate(45deg)' : '';
-      spans[1].style.opacity = open ? '0' : '1';
-      spans[2].style.transform = open ? 'translateY(-6.5px) rotate(-45deg)' : '';
-    });
-    mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      open = false; mob.classList.remove('open'); document.body.style.overflow = '';
+
+    function openMenu() {
+      open = true;
+      mob.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      ham.setAttribute('aria-expanded', 'true');
+      spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+    }
+    function closeMenu() {
+      open = false;
+      mob.classList.remove('open');
+      document.body.style.overflow = '';
+      ham.setAttribute('aria-expanded', 'false');
       spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
-    }));
+    }
+
+    ham.addEventListener('click', () => open ? closeMenu() : openMenu());
+
+    // Close button inside menu
+    const closeBtn = mob.querySelector('.mobile-menu-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+
+    // Close on link tap
+    mob.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // Close on Escape key
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) closeMenu(); });
+
+    // Close on backdrop tap (outside the links area)
+    mob.addEventListener('click', e => { if (e.target === mob) closeMenu(); });
   }
 
   document.querySelectorAll('.lang-btn,.mob-lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
