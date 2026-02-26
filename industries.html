@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="FSV Tech serves Qatar's government, financial services, energy, healthcare, education, and real estate sectors with enterprise technology solutions."/>
+<meta name="robots" content="index, follow"/>
+<link rel="icon" type="image/svg+xml" href="images/logo.svg"/>
+<link rel="alternate icon" href="images/logo.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Industries — FSV Tech"/>
+<meta property="og:description" content="FSV Tech serves Qatar's government, financial services, energy, healthcare, education, and real estate sectors with enterprise technology solutions."/>
+<meta property="og:url" content="https://fsv-tech.com/industries.html"/>
+<meta property="og:image" content="https://fsv-tech.com/images/doha-skyline.jpg"/>
+<meta property="og:site_name" content="FSV Tech"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Industries — FSV Tech"/>
+<meta name="twitter:description" content="FSV Tech serves Qatar's government, financial services, energy, healthcare, education, and real estate sectors with enterprise technology solutions."/>
+<title>Industries — FSV Tech</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.ind-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 3rem; }
+.ind-card { background: #fff; padding: 44px 36px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; transition: background .2s; }
+.ind-card:hover { background: var(--light); }
+.ind-card:nth-child(2n) { border-right: none; }
+.ind-card:nth-last-child(-n+2) { border-bottom: none; }
+.ind-num { font-size: 2.5rem; font-weight: 700; color: rgba(0,184,160,.1); line-height: 1; margin-bottom: 4px; }
+.ind-ey { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; }
+.ind-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--ink); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.02em; }
+.ind-card p { font-size: 0.85rem; line-height: 1.8; color: var(--muted); margin-bottom: 16px; }
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 0.73rem; color: var(--subtle); border: 1px solid var(--border); padding: 3px 10px; border-radius: 4px; transition: color .15s, border-color .15s; }
+.ind-card:hover .chip { color: var(--muted); border-color: #c4c9d4; }
+
+.cross-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 3rem; }
+.cross-card { background: #fff; padding: 36px 28px; text-align: center; border-right: 1px solid var(--border); transition: background .2s; }
+.cross-card:last-child { border-right: none; }
+.cross-card:hover { background: var(--light); }
+.cross-ic { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin: 0 auto 12px; background: rgba(0,184,160,0.08); border: 1px solid rgba(0,184,160,0.15); border-radius: 10px; color: var(--teal); }
+.cross-card h4 { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.cross-card p { font-size: 0.82rem; line-height: 1.75; color: var(--muted); }
+
+.vision-section { background: var(--ink); border-top: 1px solid var(--border); padding: 100px 0; }
+.vision-h { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 12px; letter-spacing: -0.035em; }
+.vision-h em { font-style: normal; color: rgba(255,255,255,.3); }
+.vision-sub { font-size: 0.95rem; color: rgba(255,255,255,.45); max-width: 540px; margin-bottom: 3rem; line-height: 1.8; }
+.pillars { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; overflow: hidden; }
+.pillar { background: rgba(255,255,255,.04); padding: 32px 24px; border-right: 1px solid rgba(255,255,255,.08); transition: background .2s; }
+.pillar:last-child { border-right: none; }
+.pillar:hover { background: rgba(255,255,255,.08); }
+.p-lbl { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,184,160,.6); margin-bottom: 10px; }
+.pillar h4 { font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 8px; }
+.pillar p { font-size: 0.82rem; line-height: 1.7; color: rgba(255,255,255,.4); }
+
+.ind-cta { border-top: 1px solid var(--border); padding: 80px 0; }
+.ind-cta-inner { max-width: var(--max); margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.ind-cta h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; color: var(--ink); line-height: 1.2; letter-spacing: -0.02em; }
+.ind-cta h2 em { font-style: normal; color: var(--teal); }
+
+@media(max-width: 960px) {
+  .ind-grid { grid-template-columns: 1fr; }
+  .ind-card { border-right: none; }
+  .ind-card:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .ind-card:last-child { border-bottom: none; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .pillar:nth-child(2) { border-right: none; }
+  .pillar:nth-child(1), .pillar:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,.08); }
+  .cross-grid { grid-template-columns: 1fr; }
+  .cross-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .cross-card:last-child { border-bottom: none; }
+  .ind-cta-inner { flex-direction: column; align-items: flex-start; padding: 0 24px; }
+}
+@media(max-width: 560px) { .pillars { grid-template-columns: 1fr; } }
+body.ar .ind-banner-em { display: none; }
+</style>
+<link rel="canonical" href="https://fsv-tech.com/industries.html"/>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<nav id="nav" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="FSV Tech"/></a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-t="nav_home">Home</a></li>
+      <li><a href="about.html" data-t="nav_about">About</a></li>
+      <li><a href="services.html" data-t="nav_services">Services</a></li>
+      <li><a href="industries.html" data-t="nav_industries">Industries</a></li>
+      <li><a href="contact.html" data-t="nav_contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">عربي</button>
+      </div>
+      <a href="contact.html" class="nav-cta" data-t="nav_cta">Get in Touch</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" data-t="nav_home">Home</a>
+  <a href="about.html" data-t="nav_about">About</a>
+  <a href="services.html" data-t="nav_services">Services</a>
+  <a href="industries.html" data-t="nav_industries">Industries</a>
+  <a href="contact.html" data-t="nav_contact">Contact</a>
+  <a href="contact.html" class="mob-cta" data-t="nav_cta">Get in Touch</a>
+  <div class="mobile-lang">
+    <button class="mob-lang-btn active" data-lang="en">English</button>
+    <button class="mob-lang-btn" data-lang="ar">عربي</button>
+  </div>
+</div>
+
+<div class="page-banner" id="main-content">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:18px"><span data-t="ind_banner_ey">Sectors We Serve</span></div>
+    <h1><span data-t="ind_banner_h">Industries </span><em class="ind-banner-em" data-t="ind_banner_h_em">We Serve</em></h1>
+    <p data-t="ind_banner_p">From government ministries to financial institutions — we bring enterprise technology expertise to Qatar's most critical sectors.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <div class="fade">
+      <div class="eyebrow" style="margin-bottom:12px"><span data-t="ind_s1_ey">Sector Expertise</span></div>
+      <h2 style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;color:var(--ink);letter-spacing:-0.03em;max-width:540px;line-height:1.15;" data-t="ind_s1_h">Deep expertise across Qatar's key sectors.</h2>
+    </div>
+    <div class="ind-grid fade d1">
+      <div class="ind-card">
+        <div class="ind-num">01</div>
+        <div class="ind-ey" data-t="ind_1_ey">Government & Public Sector</div>
+        <h3 data-t="ind_1_h">Government & Public Sector</h3>
+        <p data-t="ind_1_p">Secure e-government platforms, sovereign AI deployment, and digital transformation programmes for Qatar's ministries, authorities, and public bodies.</p>
+        <div class="chip-wrap"><span class="chip">E-Government</span><span class="chip">Sovereign AI</span><span class="chip">Digital Services</span><span class="chip">Citizen Portals</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-num">02</div>
+        <div class="ind-ey" data-t="ind_2_ey">Financial Services</div>
+        <h3 data-t="ind_2_h">Banking & Financial Services</h3>
+        <p data-t="ind_2_p">Core banking integrations, regulatory compliance systems, and AI-powered risk and fraud detection for Qatar's financial institutions.</p>
+        <div class="chip-wrap"><span class="chip">FinTech</span><span class="chip">Compliance</span><span class="chip">Risk AI</span><span class="chip">Core Banking</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-num">03</div>
+        <div class="ind-ey" data-t="ind_3_ey">Energy & Utilities</div>
+        <h3 data-t="ind_3_h">Energy & Utilities</h3>
+        <p data-t="ind_3_p">Industrial IoT platforms, predictive maintenance AI, and operational technology security for Qatar's energy and utilities sector.</p>
+        <div class="chip-wrap"><span class="chip">Industrial IoT</span><span class="chip">OT Security</span><span class="chip">Predictive AI</span><span class="chip">SCADA</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-num">04</div>
+        <div class="ind-ey" data-t="ind_4_ey">Healthcare</div>
+        <h3 data-t="ind_4_h">Healthcare & Life Sciences</h3>
+        <p data-t="ind_4_p">Electronic health records, clinical AI tools, and HIPAA/PDPA-compliant data platforms for Qatar's healthcare providers and insurers.</p>
+        <div class="chip-wrap"><span class="chip">EHR Systems</span><span class="chip">Clinical AI</span><span class="chip">Data Privacy</span><span class="chip">Telemedicine</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-num">05</div>
+        <div class="ind-ey" data-t="ind_5_ey">Education</div>
+        <h3 data-t="ind_5_h">Education & Research</h3>
+        <p data-t="ind_5_p">AI-powered learning platforms, research data infrastructure, and digital campus solutions for universities and educational authorities in Qatar.</p>
+        <div class="chip-wrap"><span class="chip">EdTech</span><span class="chip">Learning AI</span><span class="chip">Research Infra</span><span class="chip">LMS</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-num">06</div>
+        <div class="ind-ey" data-t="ind_6_ey">Real Estate & Construction</div>
+        <h3 data-t="ind_6_h">Real Estate & Construction</h3>
+        <p data-t="ind_6_p">Smart building platforms, property management systems, and BIM-integrated digital twins for Qatar's rapidly growing built environment.</p>
+        <div class="chip-wrap"><span class="chip">PropTech</span><span class="chip">Smart Buildings</span><span class="chip">Digital Twin</span><span class="chip">BIM</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICE IMAGE BAND -->
+<div style="position:relative;overflow:hidden;height:340px;">
+  <div style="position:absolute;inset:0;background-image:url('images/office-building.jpg');background-size:cover;background-position:center 45%;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.88) 0%,rgba(10,10,10,.6) 50%,rgba(10,10,10,.2) 100%);"></div>
+  <div style="position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:0 40px;height:100%;display:flex;align-items:center;">
+    <div>
+      <div class="eyebrow fade" style="margin-bottom:12px;color:rgba(0,184,160,.8)"><span>Our Headquarters</span></div>
+      <h2 class="fade" style="font-size:clamp(1.8rem,3.5vw,3rem);font-weight:700;color:#fff;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px;">FSV Tech<br><em style="font-style:normal;color:var(--teal);">Doha, Qatar</em></h2>
+      <p class="fade" style="font-size:0.9rem;color:rgba(255,255,255,.5);max-width:340px;line-height:1.75;">Built and operated from the heart of Qatar. Local knowledge, national standards, enterprise delivery.</p>
+    </div>
+  </div>
+</div>
+
+
+<section class="section" style="background:var(--lighter);border-top:1px solid var(--border);">
+  <div class="wrap">
+    <div class="fade">
+      <div class="eyebrow" style="margin-bottom:12px"><span data-t="ind_cross_ey">Cross-Sector Capabilities</span></div>
+      <h2 style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;color:var(--ink);letter-spacing:-0.03em;max-width:480px;line-height:1.15;" data-t="ind_cross_h">Capabilities that cut across every sector.</h2>
+    </div>
+    <div class="cross-grid fade d1">
+      <div class="cross-card"><span class="cross-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z" stroke="var(--teal)"/><circle cx="12" cy="10" r="3" stroke="var(--teal)"/></svg></span><h4 data-t="ind_x1_h">Data Sovereignty</h4><p data-t="ind_x1_p">All data stays within Qatar's borders. Every engagement is designed around local residency requirements and national security standards.</p></div>
+      <div class="cross-card"><span class="cross-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="var(--teal)"/><path d="M8 12h2l2-4 2 8 2-4h2" stroke="var(--teal)" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h4 data-t="ind_x2_h">Arabic-First AI</h4><p data-t="ind_x2_p">Native Arabic language understanding built into every AI product — not bolted on. Bilingual interfaces as standard.</p></div>
+      <div class="cross-card"><span class="cross-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M9 11l3 3L22 4" stroke="var(--teal)" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="var(--teal)" stroke-linecap="round"/></svg></span><h4 data-t="ind_x3_h">Regulatory Compliance</h4><p data-t="ind_x3_p">Deep knowledge of Qatar's regulatory landscape ensures our solutions meet the requirements of every relevant authority.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="vision-section">
+  <div class="wrap">
+    <div class="fade">
+      <div class="eyebrow" style="margin-bottom:14px;color:rgba(0,184,160,.7)"><span data-t="ind_vq_ey">Qatar Vision 2030</span></div>
+      <h2 class="vision-h">Aligned with the <em>national agenda.</em></h2>
+      <p class="vision-sub" data-t="ind_vq_p">Every solution FSV Tech delivers contributes to one of the pillars of Qatar's National Vision 2030 — the roadmap to a diverse, knowledge-based economy.</p>
+    </div>
+    <div class="pillars fade d1">
+      <div class="pillar"><div class="p-lbl" data-t="ind_p1_lbl">Pillar One</div><h4 data-t="ind_p1_h">Human Development</h4><p data-t="ind_p1_p">AI-powered educational platforms that build Qatar's human capital and digital workforce.</p></div>
+      <div class="pillar"><div class="p-lbl" data-t="ind_p2_lbl">Pillar Two</div><h4 data-t="ind_p2_h">Social Development</h4><p data-t="ind_p2_p">Digital government services that ensure equitable, inclusive access for all residents.</p></div>
+      <div class="pillar"><div class="p-lbl" data-t="ind_p3_lbl">Pillar Three</div><h4 data-t="ind_p3_h">Economic Development</h4><p data-t="ind_p3_p">Enterprise technology that diversifies Qatar's economy beyond hydrocarbons.</p></div>
+      <div class="pillar"><div class="p-lbl" data-t="ind_p4_lbl">Pillar Four</div><h4 data-t="ind_p4_h">Environmental Development</h4><p data-t="ind_p4_p">Smart infrastructure management that supports Qatar's sustainability targets.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="ind-cta">
+  <div class="ind-cta-inner fade">
+    <h2>Don't see your sector? <em>Talk to us.</em></h2>
+    <a href="contact.html" class="btn btn-primary">Get in Touch<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="images/logo.png" alt="FSV Tech"/>
+      <p data-t="footer_tagline">Enterprise AI consultancy and sovereign technology solutions for Qatar's public and private sectors.</p>
+    </div>
+    <div class="footer-col">
+      <h5 data-t="footer_col1_h">Company</h5>
+      <ul>
+        <li><a href="about.html" data-t="nav_about">About</a></li>
+        <li><a href="services.html" data-t="nav_services">Services</a></li>
+        <li><a href="industries.html" data-t="nav_industries">Industries</a></li>
+        <li><a href="contact.html" data-t="nav_contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5 data-t="footer_col2_h">Services</h5>
+      <ul>
+        <li><a href="services.html#web">Web Development</a></li>
+        <li><a href="services.html#ai" data-t="home_s2_1_title">AI Consultancy</a></li>
+        <li><a href="services.html#software" data-t="home_s2_2_title">Software Engineering</a></li>
+        <li><a href="services.html#infra" data-t="home_s2_3_title">IT Infrastructure</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5 data-t="footer_col3_h">Contact</h5>
+      <ul>
+        <li><a href="mailto:info@fsv-tech.com" data-t="con_mail_v">info@fsv-tech.com</a></li>
+        <li><span data-t="footer_location">Doha, Qatar</span></li>
+        <li><a href="contact.html" data-t="footer_msg">Send a Message</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-t="footer_copy">© 2026 FSV Tech Consulting & Services.</span>
+    <div class="qatar-mark"><span class="qatar-pip"
+    <span data-t="footer_copy">© 2026 FSV Tech Consulting &amp; Services.</span>
+    <div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

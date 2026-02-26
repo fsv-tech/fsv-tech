@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="FSV Tech offers four practice areas: Web Development, AI Consultancy & LLM Deployment, Software Engineering, and IT Infrastructure Management."/>
+<meta name="robots" content="index, follow"/>
+<link rel="icon" type="image/svg+xml" href="images/logo.svg"/>
+<link rel="alternate icon" href="images/logo.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Services — FSV Tech"/>
+<meta property="og:description" content="FSV Tech offers four practice areas: Web Development, AI Consultancy & LLM Deployment, Software Engineering, and IT Infrastructure Management."/>
+<meta property="og:url" content="https://fsv-tech.com/services.html"/>
+<meta property="og:image" content="https://fsv-tech.com/images/doha-skyline.jpg"/>
+<meta property="og:site_name" content="FSV Tech"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Services — FSV Tech"/>
+<meta name="twitter:description" content="FSV Tech offers four practice areas: Web Development, AI Consultancy & LLM Deployment, Software Engineering, and IT Infrastructure Management."/>
+<title>Services — FSV Tech</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.svc-section { padding: 80px 0; border-top: 1px solid var(--border); background: #ffffff; }
+.svc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.svc-big-num { font-size: 5rem; font-weight: 700; color: rgba(0,184,160,.1); letter-spacing: -0.04em; line-height: 1; margin-bottom: -8px; }
+.svc-ey { margin: 10px 0; }
+.svc-h { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #111111; letter-spacing: -0.03em; line-height: 1.15; margin: 10px 0 18px; }
+.svc-h em { font-style: normal; color: var(--teal); }
+.svc-p { font-size: 0.95rem; line-height: 1.85; color: #6b7280; margin-bottom: 24px; }
+.feat-list { display: flex; flex-direction: column; margin-bottom: 24px; }
+.feat-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.feat-row:first-child { border-top: 1px solid var(--border); }
+.feat-check { width: 20px; height: 20px; background: rgba(0,184,160,.1); border: 1px solid rgba(0,184,160,.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; color: var(--teal); font-size: 11px; font-weight: 700; }
+.feat-title { font-size: 0.875rem; font-weight: 600; color: #111111; margin-bottom: 3px; }
+.feat-desc { font-size: 0.82rem; line-height: 1.65; color: #6b7280; }
+
+.svc-panel { background: #ffffff; border: 1px solid #e0e0e0; border-radius: 16px; padding: 32px; position: sticky; top: 88px; box-shadow: 0 4px 24px rgba(0,0,0,.07); }
+.svc-panel-accent { border-top: 2px solid var(--teal); border-radius: 16px; }
+.panel-h { font-size: 0.78rem; font-weight: 600; color: #111111; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+.tag-wrap { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 24px; }
+.uc-item { display: flex; align-items: center; gap: 10px; font-size: 0.83rem; color: #374151; padding: 8px 0; border-bottom: 1px solid #e0e0e0; }
+.uc-item:last-child { border-bottom: none; }
+.uc-item::before { content: ''; width: 4px; height: 4px; background: var(--teal); border-radius: 50%; flex-shrink: 0; }
+
+.process-section { background: var(--light); border-top: 1px solid var(--border); padding: 80px 0; }
+.process-h { font-size: clamp(1.8rem,3vw,2.4rem); font-weight: 700; color: var(--ink); letter-spacing: -0.03em; text-align: center; margin-bottom: 48px; }
+.process-h em { font-style: normal; color: var(--teal); }
+.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.step { background: #ffffff; padding: 32px 24px; border-right: 1px solid #e0e0e0; }
+.step:last-child { border-right: none; }
+.step-n { font-size: 2rem; font-weight: 700; color: rgba(0,184,160,.15); line-height: 1; margin-bottom: 12px; }
+.step h4 { font-size: 0.9rem; font-weight: 600; color: #111111; margin-bottom: 7px; }
+.step p { font-size: 0.82rem; line-height: 1.7; color: #6b7280; }
+
+/* On desktop, alternate sections have panel-first in DOM but text-first visually.
+   align-items: start keeps sticky working; panels are naturally shorter than text cols. */
+.svc-layout.panel-first .svc-text-col { order: 2; }
+.svc-layout.panel-first .svc-panel-col { order: 1; }
+
+@media(max-width: 960px) {
+  .svc-layout { grid-template-columns: 1fr; gap: 40px; }
+  .svc-panel { position: static; }
+  /* Always show text content before panel on mobile, regardless of DOM order */
+  .svc-layout .svc-text-col  { order: 1 !important; }
+  .svc-layout .svc-panel-col { order: 2 !important; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .step:nth-child(2) { border-right: none; }
+  .step:nth-child(1), .step:nth-child(2) { border-bottom: 1px solid var(--border); }
+}
+@media(max-width: 560px) {
+  .steps-grid { grid-template-columns: 1fr; }
+  .step { border-right: none; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+}
+
+.svc-img-panel {
+  position: relative; border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border-dark);
+}
+.svc-img-panel img {
+  width: 100%; height: 280px; object-fit: cover; display: block;
+  filter: grayscale(20%) contrast(1.05);
+  transition: transform .5s ease, filter .5s ease;
+}
+.svc-img-panel:hover img { transform: scale(1.04); filter: grayscale(0%); }
+.svc-img-panel::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(10,10,10,.55) 100%);
+  pointer-events: none; border-radius: 16px;
+}
+.svc-img-badge {
+  position: absolute; bottom: 16px; left: 16px; z-index: 2;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,.75); display: flex; align-items: center; gap: 8px;
+}
+.svc-img-badge::before { content: ''; width: 16px; height: 1.5px; background: var(--teal); }
+
+</style>
+<link rel="canonical" href="https://fsv-tech.com/services.html"/>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<nav id="nav" class="scrolled">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="FSV Tech"/></a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-t="nav_home">Home</a></li>
+      <li><a href="about.html" data-t="nav_about">About</a></li>
+      <li><a href="services.html" data-t="nav_services">Services</a></li>
+      <li><a href="industries.html" data-t="nav_industries">Industries</a></li>
+      <li><a href="contact.html" data-t="nav_contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">عربي</button>
+      </div>
+      <a href="contact.html" class="nav-cta" data-t="nav_cta">Get in Touch</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" data-t="nav_home">Home</a>
+  <a href="about.html" data-t="nav_about">About</a>
+  <a href="services.html" data-t="nav_services">Services</a>
+  <a href="industries.html" data-t="nav_industries">Industries</a>
+  <a href="contact.html" data-t="nav_contact">Contact</a>
+  <a href="contact.html" class="mob-cta" data-t="nav_cta">Get in Touch</a>
+  <div class="mobile-lang">
+    <button class="mob-lang-btn active" data-lang="en">English</button>
+    <button class="mob-lang-btn" data-lang="ar">عربي</button>
+  </div>
+</div>
+
+<div class="page-banner" id="main-content">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:18px"><span data-t="svc_banner_ey">What We Offer</span></div>
+    <h1><span data-t="svc_banner_h">Our </span><em data-t="svc_banner_h_em">Services</em></h1>
+    <p data-t="svc_banner_p">Four practice areas engineered to transform Qatar's digital landscape — each built on sovereignty, security, and scale.</p>
+  </div>
+</div><!-- /page-banner -->
+
+<div style="height:3px;background:linear-gradient(90deg,var(--teal) 0%,rgba(0,184,160,.2) 60%,transparent 100%);"></div>
+
+<!-- SERVICE 01: WEB DEVELOPMENT -->
+<div class="svc-section" id="web">
+  <div class="wrap">
+    <div class="svc-layout">
+      <div class="fade svc-text-col">
+        <div class="svc-big-num">01</div>
+        <div class="eyebrow svc-ey"><span data-t="svc_00_ey">Practice Area One</span></div>
+        <h2 class="svc-h"><em data-t="svc_00_h">Web Development</em></h2>
+        <p class="svc-p" data-t="svc_00_p">We design and build bespoke, high-performance websites and web applications from the ground up. Every project is engineered for security, blazing speed, and a seamless user experience — tailored to the exacting standards of Qatar's government and enterprise sector.</p>
+        <div class="feat-list">
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_00_f1_t">Custom Website Design & Development</div><div class="feat-desc" data-t="svc_00_f1_d">Pixel-perfect, responsive websites built to reflect your brand and convert visitors into clients.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_00_f2_t">Web Application Development</div><div class="feat-desc" data-t="svc_00_f2_d">Full-stack web apps with robust backends, real-time features, and scalable architectures.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_00_f3_t">E-Commerce & Portal Solutions</div><div class="feat-desc" data-t="svc_00_f3_d">Secure, feature-rich e-commerce platforms and customer portals tailored to your business logic.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_00_f4_t">Performance & SEO Optimisation</div><div class="feat-desc" data-t="svc_00_f4_d">Speed, Core Web Vitals, and SEO best practices baked in from day one — not retrofitted later.</div></div></div>
+        </div>
+        <a href="contact.html" class="btn btn-primary"><span data-t="svc_00_cta">Discuss Your Project</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+      <div class="fade d2 svc-panel-col">
+        <div class="svc-img-panel" style="margin-bottom:12px;">
+          <img loading="lazy" src="images/team-office.jpg" alt="FSV Tech Development Team"/>
+          <div class="svc-img-badge">Our Engineering Team</div>
+        </div>
+        <div class="svc-panel svc-panel-accent">
+          <div class="panel-h" data-t="svc_00_tech_h">Technology Stack</div>
+          <div class="tag-wrap">
+            <span class="tag">React / Next.js</span><span class="tag">Vue / Nuxt</span><span class="tag">Node.js</span>
+            <span class="tag">TypeScript</span><span class="tag">Tailwind CSS</span><span class="tag">PostgreSQL</span>
+            <span class="tag">MongoDB</span><span class="tag">AWS / Azure</span><span class="tag">Docker</span>
+            <span class="tag">CI/CD Pipelines</span>
+          </div>
+          <div class="panel-h" data-t="svc_00_wyg_h">What You Get</div>
+          <div class="uc-item" data-t="svc_00_w1">Fully responsive, cross-browser compatible</div>
+          <div class="uc-item" data-t="svc_00_w2">Arabic / English bilingual support (RTL)</div>
+          <div class="uc-item" data-t="svc_00_w3">WCAG 2.1 accessibility compliance</div>
+          <div class="uc-item" data-t="svc_00_w4">99.9% uptime SLA with managed hosting</div>
+          <div class="uc-item" data-t="svc_00_w5">Comprehensive handover documentation</div>
+          <div class="uc-item" data-t="svc_00_w6">Post-launch support & maintenance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICE 02: AI -->
+<div class="svc-section" id="ai" style="background:#f5f5f5">
+  <div class="wrap">
+    <div class="svc-layout panel-first">
+      <div class="fade d2 svc-panel-col">
+        <div class="svc-img-panel" style="margin-bottom:12px;">
+          <img loading="lazy" src="images/ai-dashboard.jpg" alt="AI Data Intelligence Dashboard"/>
+          <div class="svc-img-badge">Data Intelligence</div>
+        </div>
+        <div class="svc-panel svc-panel-accent">
+          <div class="panel-h" data-t="svc_01_tech_h">Technologies</div>
+          <div class="tag-wrap">
+            <span class="tag">LLaMA / Mistral</span><span class="tag">GPT-4</span><span class="tag">LangChain</span>
+            <span class="tag">RAG Pipelines</span><span class="tag">HuggingFace</span><span class="tag">Arabic NLP</span>
+            <span class="tag">Vector DBs</span><span class="tag">MLflow</span>
+          </div>
+          <div class="panel-h" data-t="svc_01_uc_h">Common Use Cases</div>
+          <div class="uc-item" data-t="svc_01_uc1">Intelligent document processing & classification</div>
+          <div class="uc-item" data-t="svc_01_uc2">Government citizen services AI assistant</div>
+          <div class="uc-item" data-t="svc_01_uc3">Automated regulatory compliance monitoring</div>
+          <div class="uc-item" data-t="svc_01_uc4">Internal knowledge base & semantic search</div>
+          <div class="uc-item" data-t="svc_01_uc5">Predictive maintenance for critical infrastructure</div>
+          <div class="uc-item" data-t="svc_01_uc6">Arabic NLP & bilingual AI systems</div>
+        </div>
+      </div>
+      <div class="fade svc-text-col">
+        <div class="svc-big-num">02</div>
+        <div class="eyebrow svc-ey"><span data-t="svc_01_ey">Practice Area Two</span></div>
+        <h2 class="svc-h"><em data-t="svc_01_h">AI Consultancy &amp; LLM Deployment</em></h2>
+        <p class="svc-p" data-t="svc_01_p">We unlock new growth through the strategic deployment of sovereign Large Language Models and enterprise AI roadmaps. Our solutions automate complex workflows, reduce operational costs, and increase efficiency for national entities — without routing sensitive data through external infrastructure.</p>
+        <div class="feat-list">
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_01_f1_t">Sovereign LLM Deployment</div><div class="feat-desc" data-t="svc_01_f1_d">On-premise or private cloud AI models that keep your data within Qatar's borders.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_01_f2_t">AI Strategy & Roadmapping</div><div class="feat-desc" data-t="svc_01_f2_d">Comprehensive AI adoption strategies aligned with your organisation's goals and national standards.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_01_f3_t">Workflow Automation</div><div class="feat-desc" data-t="svc_01_f3_d">Intelligent automation of repetitive, high-volume processes across government and enterprise operations.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_01_f4_t">AI Integration & APIs</div><div class="feat-desc" data-t="svc_01_f4_d">Seamless embedding of AI capabilities into your existing systems and workflows.</div></div></div>
+        </div>
+        <a href="contact.html" class="btn btn-primary"><span data-t="svc_01_cta">Discuss AI Needs</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICE 03: SOFTWARE -->
+<div class="svc-section" id="software">
+  <div class="wrap">
+    <div class="svc-layout">
+      <div class="fade svc-text-col">
+        <div class="svc-big-num">03</div>
+        <div class="eyebrow svc-ey"><span data-t="svc_02_ey">Practice Area Three</span></div>
+        <h2 class="svc-h"><em data-t="svc_02_h">Software Engineering</em></h2>
+        <p class="svc-p" data-t="svc_02_p">We build the digital backbone of Qatar's public and private sectors. From secure e-government portals to mission-critical enterprise applications, every line of code is written to scale with your organisation over the long term.</p>
+        <div class="feat-list">
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_02_f1_t">E-Government Portals</div><div class="feat-desc" data-t="svc_02_f1_d">Secure, accessible citizen-facing digital services built to government standards.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_02_f2_t">Enterprise Application Development</div><div class="feat-desc" data-t="svc_02_f2_d">Custom business systems, ERP integrations, and operational platforms built for scale.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_02_f3_t">Secure API Development</div><div class="feat-desc" data-t="svc_02_f3_d">RESTful and GraphQL APIs with enterprise-grade authentication and authorisation.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_02_f4_t">DevSecOps & CI/CD</div><div class="feat-desc" data-t="svc_02_f4_d">Security integrated throughout the development pipeline, from code to deployment.</div></div></div>
+        </div>
+        <a href="contact.html" class="btn btn-primary"><span data-t="svc_02_cta">Discuss Your Project</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+      <div class="fade d2 svc-panel-col">
+        <div class="svc-img-panel" style="margin-bottom:12px;">
+          <img loading="lazy" src="images/office-building.jpg" alt="FSV Tech Office — Software Engineering"/>
+          <div class="svc-img-badge">Software Engineering</div>
+        </div>
+        <div class="svc-panel svc-panel-accent">
+          <div class="panel-h" data-t="svc_02_tech_h">Technology Stack</div>
+          <div class="tag-wrap">
+            <span class="tag">Python / Django</span><span class="tag">Node.js</span><span class="tag">React</span>
+            <span class="tag">Java / Spring</span><span class="tag">GraphQL</span><span class="tag">Kubernetes</span>
+            <span class="tag">PostgreSQL</span><span class="tag">Redis</span>
+          </div>
+          <div class="panel-h" data-t="svc_02_del_h">Delivery Approach</div>
+          <div class="uc-item" data-t="svc_02_d1">Agile delivery with fortnightly sprints</div>
+          <div class="uc-item" data-t="svc_02_d2">Security-first architecture design</div>
+          <div class="uc-item" data-t="svc_02_d3">Comprehensive documentation handover</div>
+          <div class="uc-item" data-t="svc_02_d4">Performance testing & load optimisation</div>
+          <div class="uc-item" data-t="svc_02_d5">Bilingual (Arabic / English) UI support</div>
+          <div class="uc-item" data-t="svc_02_d6">Post-launch support & maintenance SLA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICE 04: INFRA -->
+<div class="svc-section" id="infra" style="background:#f5f5f5">
+  <div class="wrap">
+    <div class="svc-layout panel-first">
+      <div class="fade d2 svc-panel-col">
+        <div class="svc-img-panel" style="margin-bottom:12px;">
+          <img loading="lazy" src="images/doha-skyline.jpg" alt="Doha, Qatar — IT Infrastructure"/>
+          <div class="svc-img-badge">IT Infrastructure</div>
+        </div>
+        <div class="svc-panel svc-panel-accent">
+          <div class="panel-h" data-t="svc_03_tech_h">Infrastructure Stack</div>
+          <div class="tag-wrap">
+            <span class="tag">VMware / Hyper-V</span><span class="tag">OpenStack</span><span class="tag">Zero Trust</span>
+            <span class="tag">SIEM / SOC</span><span class="tag">Backup & DR</span><span class="tag">IAM / PAM</span>
+            <span class="tag">24/7 NOC</span>
+          </div>
+          <div class="panel-h" data-t="svc_03_sla_h">Service Levels</div>
+          <div class="uc-item" data-t="svc_03_s1">24/7 monitoring and incident response</div>
+          <div class="uc-item" data-t="svc_03_s2">Defined SLAs with guaranteed uptime</div>
+          <div class="uc-item" data-t="svc_03_s3">Monthly compliance and security reports</div>
+          <div class="uc-item" data-t="svc_03_s4">Capacity planning and scaling advisory</div>
+          <div class="uc-item" data-t="svc_03_s5">Regular penetration testing</div>
+          <div class="uc-item" data-t="svc_03_s6">Dedicated Qatar-based support team</div>
+        </div>
+      </div>
+      <div class="fade svc-text-col">
+        <div class="svc-big-num">04</div>
+        <div class="eyebrow svc-ey"><span data-t="svc_03_ey">Practice Area Four</span></div>
+        <h2 class="svc-h"><em data-t="svc_03_h">IT Infrastructure Management</em></h2>
+        <p class="svc-p" data-t="svc_03_p">Growth requires a solid foundation. We provide comprehensive management of data centres and cloud infrastructure in Qatar, ensuring your systems are always secure and available.</p>
+        <div class="feat-list">
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_03_f1_t">Data Centre Management</div><div class="feat-desc" data-t="svc_03_f1_d">End-to-end management of on-premise and co-located data centre environments.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_03_f2_t">Cloud Infrastructure</div><div class="feat-desc" data-t="svc_03_f2_d">Private, hybrid, and sovereign cloud design, deployment, and management.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_03_f3_t">Security & Compliance</div><div class="feat-desc" data-t="svc_03_f3_d">Continuous security monitoring, vulnerability management, and compliance reporting.</div></div></div>
+          <div class="feat-row"><span class="feat-check">✓</span><div><div class="feat-title" data-t="svc_03_f4_t">Disaster Recovery</div><div class="feat-desc" data-t="svc_03_f4_d">Business continuity planning and tested recovery procedures for critical systems.</div></div></div>
+        </div>
+        <a href="contact.html" class="btn btn-primary"><span data-t="svc_03_cta">Discuss Infrastructure</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="process-section">
+  <div class="wrap">
+    <h2 class="process-h fade">How we <em>engage.</em></h2>
+    <div class="steps-grid fade d1">
+      <div class="step"><div class="step-n">01</div><h4 data-t="svc_step1_h">Discovery</h4><p data-t="svc_step1_p">We invest time to deeply understand your organisation, requirements, and constraints before proposing any solution.</p></div>
+      <div class="step"><div class="step-n">02</div><h4 data-t="svc_step2_h">Architecture</h4><p data-t="svc_step2_p">We design the right solution — sovereign, secure, scalable — with a clear delivery roadmap and milestones.</p></div>
+      <div class="step"><div class="step-n">03</div><h4 data-t="svc_step3_h">Delivery</h4><p data-t="svc_step3_p">Agile execution with regular check-ins, transparent progress reporting, and zero surprises.</p></div>
+      <div class="step"><div class="step-n">04</div><h4 data-t="svc_step4_h">Partnership</h4><p data-t="svc_step4_p">We remain embedded after launch — monitoring, improving, and ensuring your systems perform at their best.</p></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="images/logo.png" alt="FSV Tech"/>
+      <p data-t="footer_tagline">Enterprise AI consultancy and sovereign technology solutions for Qatar's public and private sectors.</p>
+    </div>
+    <div class="footer-col">
+      <h5 data-t="footer_col1_h">Company</h5>
+      <ul>
+        <li><a href="about.html" data-t="nav_about">About</a></li>
+        <li><a href="services.html" data-t="nav_services">Services</a></li>
+        <li><a href="industries.html" data-t="nav_industries">Industries</a></li>
+        <li><a href="contact.html" data-t="nav_contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5 data-t="footer_col2_h">Services</h5>
+      <ul>
+        <li><a href="#web">Web Development</a></li>
+        <li><a href="#ai" data-t="home_s2_1_title">AI Consultancy</a></li>
+        <li><a href="#software" data-t="home_s2_2_title">Software Engineering</a></li>
+        <li><a href="#infra" data-t="home_s2_3_title">IT Infrastructure</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5 data-t="footer_col3_h">Contact</h5>
+      <ul>
+        <li><a href="mailto:info@fsv-tech.com" data-t="con_mail_v">info@fsv-tech.com</a></li>
+        <li><span data-t="footer_location">Doha, Qatar</span></li>
+        <li><a href="contact.html" data-t="footer_msg">Send a Message</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-t="footer_copy">© 2026 FSV Tech Consulting &amp; Services.</span>
+    <div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
