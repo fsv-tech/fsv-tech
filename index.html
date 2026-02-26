@@ -338,7 +338,7 @@
     <div class="footer-brand"><img src="images/logo.png" alt="FSV Tech"/><p data-t="footer_tagline">Enterprise AI consultancy and sovereign technology solutions for Qatar's public and private sectors.</p></div>
     <div class="footer-col"><h5 data-t="footer_col1_h">Company</h5><ul><li><a href="about.html" data-t="nav_about">About</a></li><li><a href="services.html" data-t="nav_services">Services</a></li><li><a href="industries.html" data-t="nav_industries">Industries</a></li><li><a href="contact.html" data-t="nav_contact">Contact</a></li></ul></div>
     <div class="footer-col"><h5 data-t="footer_col2_h">Services</h5><ul><li><a href="services.html#web" data-t="home_s2_0_title">Web Development</a></li><li><a href="services.html#ai" data-t="home_s2_1_title">AI Consultancy</a></li><li><a href="services.html#software" data-t="home_s2_2_title">Software Engineering</a></li><li><a href="services.html#infra" data-t="home_s2_3_title">IT Infrastructure</a></li></ul></div>
-    <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#50393e363f103623267d243533387e333f3d" data-t="con_mail_v"><span class="__cf_email__" data-cfemail="f29b9c949db2948184df8697919adc919d9f">[email&#160;protected]</span></a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
+    <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="mailto:info@fsv-tech.com" data-t="con_mail_v">info@fsv-tech.com</a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="contact.html" data-t="footer_msg">Send a Message</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span data-t="footer_copy">© 2026 FSV Tech Consulting & Services.</span>
@@ -346,7 +346,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="main.js"></script>
+<script src="main.js"></script>
 <script>
 window.addEventListener('load',()=>{ const b=document.getElementById('heroBg'); if(b) b.classList.add('loaded'); });
 (function(){
@@ -358,5 +358,14 @@ window.addEventListener('load',()=>{ const b=document.getElementById('heroBg'); 
   function draw(){
     ctx.clearRect(0,0,W,H);
     for(let i=0;i<nodes.length;i++) for(let j=i+1;j<nodes.length;j++){
-      const d=Math.hypot(nodes[i].x-nodes[j].x,nodes[i].y-nodes[j].y);
-      if(d<D){ctx.beginPath();ctx.strokeStyle=`rgba(0,184,160,${(1-d/D)*0.08}
+      if(d<D){ctx.beginPath();ctx.strokeStyle=`rgba(0,184,160,${(1-d/D)*0.08})`;ctx.lineWidth=0.5;ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke();}
+    }
+    for(const n of nodes){ ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(0,184,160,0.14)';ctx.fill(); n.x+=n.vx; n.y+=n.vy; if(n.x<-10)n.x=W+10; else if(n.x>W+10)n.x=-10; if(n.y<-10)n.y=H+10; else if(n.y>H+10)n.y=-10; }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{ resize(); init(); });
+  resize(); init(); draw();
+})();
+</script>
+</body>
+</html>

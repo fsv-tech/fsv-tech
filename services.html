@@ -10,8 +10,8 @@
 <meta property="og:type" content="website"/>
 <meta property="og:title" content="Services — FSV Tech"/>
 <meta property="og:description" content="FSV Tech offers four practice areas: Web Development, AI Consultancy & LLM Deployment, Software Engineering, and IT Infrastructure Management."/>
-<meta property="og:url" content="https://fsv-tech.com/services.html"/>
-<meta property="og:image" content="https://fsv-tech.com/images/doha-skyline.jpg"/>
+<meta property="og:url" content="https://fsv-tech.github.io/fsv-tech/services.html"/>
+<meta property="og:image" content="https://fsv-tech.github.io/fsv-tech/images/doha-skyline.jpg"/>
 <meta property="og:site_name" content="FSV Tech"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Services — FSV Tech"/>
@@ -51,15 +51,12 @@
 .step h4 { font-size: 0.9rem; font-weight: 600; color: #111111; margin-bottom: 7px; }
 .step p { font-size: 0.82rem; line-height: 1.7; color: #6b7280; }
 
-/* On desktop, alternate sections have panel-first in DOM but text-first visually.
-   align-items: start keeps sticky working; panels are naturally shorter than text cols. */
 .svc-layout.panel-first .svc-text-col { order: 2; }
 .svc-layout.panel-first .svc-panel-col { order: 1; }
 
 @media(max-width: 960px) {
   .svc-layout { grid-template-columns: 1fr; gap: 40px; }
   .svc-panel { position: static; }
-  /* Always show text content before panel on mobile, regardless of DOM order */
   .svc-layout .svc-text-col  { order: 1 !important; }
   .svc-layout .svc-panel-col { order: 2 !important; }
   .steps-grid { grid-template-columns: 1fr 1fr; }
@@ -95,7 +92,7 @@
 .svc-img-badge::before { content: ''; width: 16px; height: 1.5px; background: var(--teal); }
 
 </style>
-<link rel="canonical" href="https://fsv-tech.com/services.html"/>
+<link rel="canonical" href="https://fsv-tech.github.io/fsv-tech/services.html"/>
 </head>
 <body>
 
@@ -352,12 +349,20 @@
     <div class="footer-col">
       <h5 data-t="footer_col3_h">Contact</h5>
       <ul>
-        <li><a href="/cdn-cgi/l/email-protection#20494e464f604653560d544543480e434f4d" data-t="con_mail_v"><span class="__cf_email__" data-cfemail="d4bdbab2bb94b2a7a2f9a0b1b7bcfab7bbb9">[email&#160;protected]</span></a></li>
+        <li><a href="mailto:info@fsv-tech.com" data-t="con_mail_v">info@fsv-tech.com</a></li>
         <li><span data-t="footer_location">Doha, Qatar</span></li>
         <li><a href="contact.html" data-t="footer_msg">Send a Message</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span data-t="footer_copy">© 2026 FSV Tech Consulting &amp; Services.</span>
+    <span data-t="footer_copy">© 2026 FSV Tech Consulting & Services.</span>
     <div class="qatar-mark"><span class="qatar-pip"
+    <span data-t="footer_copy">© 2026 FSV Tech Consulting &amp; Services.</span>
+    <div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
