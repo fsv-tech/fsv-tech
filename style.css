@@ -164,7 +164,7 @@ body.ar .btn:hover svg { transform: scaleX(-1) translateX(-3px); }
 .stat-item { padding: 40px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,.07); }
 .stat-item:last-child { border-right: none; }
 .stat-num { font-size: 2.2rem; font-weight: 700; color: #fff; letter-spacing: -0.04em; }
-.stat-num span { color: var(--teal); }
+.stat-num span { color: #fff; }
 .stat-lbl { font-size: 0.75rem; color: rgba(255,255,255,.58); margin-top: 4px; }
 
 /* SECTION DIVIDERS — image-like banners using CSS gradients */
@@ -276,13 +276,17 @@ body.js-ready .fade.in { opacity: 1; transform: none; }
 @media(max-width: 560px) {
   .wrap { padding: 0 16px; }
   .section { padding: 32px 0; }
-  /* Footer */
-  .footer-grid { grid-template-columns: 1fr; gap: 24px; padding: 28px 16px 20px; }
+  /* Footer — brand only, no separator, no bottom bar */
+  .footer-grid { grid-template-columns: 1fr; gap: 0; padding: 24px 16px; }
+  .footer-brand { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
   .footer-col h5 { margin-bottom: 12px; }
   .footer-col ul { gap: 8px; }
   .footer-nav-col { display: none; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 16px; }
-  .qatar-mark { display: none; }
+  /* Hide all columns — brand only on mobile */
+  .footer-grid > div:nth-child(2),
+  .footer-grid > div:nth-child(3),
+  .footer-grid > div:nth-child(4) { display: none; }
+  .footer-bottom { display: none; }
   .stat-item:last-child { border-bottom: none; }
   /* Hide decorative/fluff sections on mobile */
   .ticker-wrap { display: none; }
@@ -290,10 +294,10 @@ body.js-ready .fade.in { opacity: 1; transform: none; }
   .doha-section { display: none; }
   .process-section { display: none; }
   .svc-img-panel { display: none; }
-  /* Tighter hero on mobile */
-  .hero { min-height: auto; padding: 80px 0 40px; }
-  /* Reduce page banner padding */
-  .page-banner { padding: 60px 0 32px; }
+  /* Tighter hero on mobile — always clear the fixed nav */
+  .hero { min-height: auto; padding: calc(var(--nav-h) + 24px) 0 40px; }
+  /* Reduce page banner padding — always clear the fixed nav */
+  .page-banner { padding: calc(var(--nav-h) + 24px) 0 36px; }
   .page-banner h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
   /* Hide about pillars section on mobile - mission section covers it */
   .pillars-grid { display: none !important; }
