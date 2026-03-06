@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Nova AI — A fully local, privacy-first AI coding sandbox by FSV Tech. Build full apps, run a live terminal, preview in real time. No internet required."/>
+<meta name="robots" content="index, follow"/>
+<link rel="icon" type="image/svg+xml" href="images/logo.svg"/>
+<link rel="alternate icon" href="images/logo.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Nova AI — FSV Tech"/>
+<meta property="og:description" content="A fully local, privacy-first AI coding sandbox. Build full apps, run a live terminal, preview in real time. No internet required."/>
+<meta property="og:url" content="https://fsv-tech.com/nova-ai"/>
+<meta property="og:site_name" content="FSV Tech"/>
+<title>Nova AI — FSV Tech</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── Banner — mirrors .portal-banner exactly ── */
+.nova-banner {
+  padding: calc(var(--nav-h) + 80px) 0 80px;
+  background: var(--black); position: relative; overflow: hidden;
+}
+.nova-banner::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 65% 55% at 65% 50%, rgba(0,184,160,.07) 0%, transparent 70%);
+}
+.nova-banner-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+/* Diamond texture overlay — matches splash.html */
+.nova-banner-tex {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M22 3 L41 22 L22 41 L3 22 Z' fill='none' stroke='%23fff' stroke-width='0.8'/%3E%3Cpath d='M22 12 L32 22 L22 32 L12 22 Z' fill='none' stroke='%23fff' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 44px 44px;
+}
+.nova-banner-inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+}
+.nova-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,184,160,.1); border: 1px solid rgba(0,184,160,.25);
+  border-radius: 20px; padding: 4px 14px 4px 8px; margin-bottom: 24px;
+}
+.nova-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); animation: ppulse 2s infinite; }
+@keyframes ppulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(1.5);} }
+.nova-badge span { font-size: 0.68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: rgba(0,184,160,.9); }
+.nova-banner h1 { font-size: clamp(2.8rem,4.5vw,4.2rem); font-weight: 700; line-height: 1.07; letter-spacing: -.035em; color: #fff; margin-bottom: 20px; }
+.nova-banner h1 em { font-style: normal; color: var(--teal); }
+.nova-sub { font-size: 1rem; color: rgba(255,255,255,.5); line-height: 1.8; max-width: 440px; margin-bottom: 36px; }
+.banner-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-hero-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+.btn-hero-ghost:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); }
+.nova-stats { display: flex; gap: 36px; margin-top: 48px; padding-top: 36px; border-top: 1px solid rgba(255,255,255,.08); }
+.ns-n { font-size: 1.7rem; font-weight: 700; color: #fff; letter-spacing: -.03em; line-height: 1; }
+.ns-l { font-size: 0.68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-top: 4px; }
+
+/* ── Splash window (hero right col) — exact replica of splash.html ── */
+.nova-splash-col { display: flex; align-items: center; justify-content: center; }
+.nova-splash-outer {
+  width: 100%; max-width: 380px;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.07);
+  transform: perspective(1200px) rotateY(-5deg) rotateX(2deg);
+  transition: transform .6s ease;
+}
+.nova-splash-outer:hover { transform: perspective(1200px) rotateY(-1deg) rotateX(0); }
+.splash-titlebar {
+  height: 28px; background: #161616;
+  display: flex; align-items: center; padding: 0 12px; gap: 6px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.splash-titlebar span { width: 9px; height: 9px; border-radius: 50%; }
+.splash-titlebar span:nth-child(1){background:#ff5f57;}
+.splash-titlebar span:nth-child(2){background:#febc2e;}
+.splash-titlebar span:nth-child(3){background:#28c840;}
+.splash-body {
+  background: #0f0f10;
+  height: 300px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  position: relative; overflow: hidden;
+}
+.splash-body::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M22 3 L41 22 L22 41 L3 22 Z' fill='none' stroke='%23888' stroke-width='0.8'/%3E%3Cpath d='M22 12 L32 22 L22 32 L12 22 Z' fill='none' stroke='%23888' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 44px 44px;
+}
+.splash-logo-wrap {
+  width: 72px; height: 72px;
+  opacity: 0; animation: sLogoEnter 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+}
+@keyframes sLogoEnter { from{opacity:0;transform:scale(0.75) rotate(-8deg);} to{opacity:1;transform:scale(1) rotate(0deg);} }
+.splash-logo-wrap svg { width:100%; height:100%; animation:sSpin 18s linear 1.4s infinite; transform-origin:center; }
+@keyframes sSpin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+.s-ring { stroke-dasharray:300; stroke-dashoffset:300; transform-origin:24px 24px; }
+.s-ring-outer { animation: sDrawRing .9s cubic-bezier(.4,0,.2,1) .5s forwards, sBreathe 3s ease-in-out 1.8s infinite; }
+.s-ring-mid   { animation: sDrawRing .7s cubic-bezier(.4,0,.2,1) .7s forwards, sBreatheMid 3s ease-in-out 2.1s infinite; }
+.s-ring-inner { animation: sDrawRing .5s cubic-bezier(.4,0,.2,1) .9s forwards, sBreatheInner 3s ease-in-out 2.4s infinite; }
+@keyframes sDrawRing { to{stroke-dashoffset:0;} }
+@keyframes sBreathe      { 0%,100%{opacity:.45;transform:scale(1);}  50%{opacity:.7;transform:scale(1.03);} }
+@keyframes sBreatheMid   { 0%,100%{opacity:.35;transform:scale(1);} 50%{opacity:.55;transform:scale(1.045);} }
+@keyframes sBreatheInner { 0%,100%{opacity:.25;transform:scale(1);} 50%{opacity:.45;transform:scale(1.06);} }
+.splash-wordmark { font-size:12px; font-weight:400; letter-spacing:5px; text-transform:uppercase; color:#4a4a54; opacity:0; animation:sSlideUp .7s ease .9s forwards; }
+.splash-status   { font-size:10px; color:#2e2e38; letter-spacing:0.3px; opacity:0; animation:sSlideUp .7s ease 1.1s forwards; }
+.splash-bar-wrap { width:90px; height:1px; background:#191920; border-radius:1px; overflow:hidden; opacity:0; animation:sSlideUp .7s ease 1.2s forwards; }
+.splash-bar      { height:100%; background:#383844; border-radius:1px; animation:sLoad 2.4s cubic-bezier(.4,0,.2,1) 1.4s infinite; }
+@keyframes sLoad { 0%{width:0%;margin-left:0%;} 50%{width:55%;margin-left:22%;} 100%{width:0%;margin-left:100%;} }
+@keyframes sSlideUp { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+
+/* ── Marquee ── */
+.marquee-strip { background:var(--teal); padding:11px 0; overflow:hidden; white-space:nowrap; }
+.marquee-track { display:inline-flex; animation:mscroll 32s linear infinite; }
+.marquee-track span { font-size:0.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:#fff; padding:0 26px; }
+.marquee-track span.sep { color:rgba(255,255,255,.4); }
+@keyframes mscroll { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+/* ── Feature grid ── */
+.feat-intro { text-align:center; max-width:580px; margin:0 auto 64px; }
+.feat-intro h2 { font-size:clamp(2rem,3.5vw,2.8rem); font-weight:700; color:var(--ink); line-height:1.12; letter-spacing:-.03em; margin-bottom:14px; }
+.feat-intro p { font-size:0.9375rem; color:var(--grey); line-height:1.75; }
+.feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--border); }
+.feat-card { background:#fff; padding:40px 34px; transition:background .2s; }
+.feat-icon { width:44px; height:44px; border-radius:10px; background:rgba(0,184,160,.08); border:1px solid rgba(0,184,160,.16); display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
+.feat-icon svg { width:20px; height:20px; stroke:var(--teal); fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.5; }
+.feat-card h3 { font-size:0.95rem; font-weight:700; color:var(--ink); margin-bottom:8px; line-height:1.3; }
+.feat-card p  { font-size:0.85rem; color:var(--grey); line-height:1.7; }
+
+/* ── Showcase rows ── */
+.showcase { padding:80px 0; border-top:1px solid var(--border); }
+.showcase.alt { background:var(--light); }
+.showcase.dark-bg { background:var(--black); border-color:rgba(255,255,255,.07); }
+.showcase-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.showcase-inner.flip { direction:rtl; }
+.showcase-inner.flip > * { direction:ltr; }
+.sc-eyebrow { display:flex; align-items:center; gap:10px; font-size:0.68rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); margin-bottom:14px; }
+.sc-eyebrow::before { content:''; width:20px; height:1.5px; background:var(--teal); flex-shrink:0; }
+.showcase-inner h2 { font-size:clamp(1.8rem,2.8vw,2.3rem); font-weight:700; color:var(--ink); line-height:1.12; letter-spacing:-.03em; margin-bottom:14px; }
+.showcase-inner h2 em { font-style:normal; color:var(--teal); }
+.showcase-inner > div > p { font-size:0.9375rem; color:var(--body); line-height:1.8; margin-bottom:22px; }
+.sc-bullets { list-style:none; display:flex; flex-direction:column; gap:9px; }
+.sc-bullets li { display:flex; align-items:flex-start; gap:10px; font-size:0.875rem; color:var(--body); }
+.sc-bullets li::before { content:''; flex-shrink:0; margin-top:7px; width:5px; height:5px; border-radius:50%; background:var(--teal); }
+.sc-frame { border-radius:10px; overflow:hidden; box-shadow:0 16px 56px rgba(0,0,0,.1),0 0 0 1px var(--border); }
+.sc-frame img { width:100%; display:block; }
+.sc-label { display:inline-block; margin-top:14px; font-size:0.65rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--grey); }
+/* Dark showcase overrides */
+.showcase.dark-bg .sc-eyebrow { color:rgba(0,184,160,.85); }
+.showcase.dark-bg .sc-eyebrow::before { background:rgba(0,184,160,.85); }
+.showcase.dark-bg .showcase-inner h2 { color:#fff; }
+.showcase.dark-bg .showcase-inner > div > p,
+.showcase.dark-bg .sc-bullets li { color:rgba(255,255,255,.5); }
+.showcase.dark-bg .sc-frame { box-shadow:0 16px 56px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08); }
+.showcase.dark-bg .sc-label { color:rgba(255,255,255,.3); }
+
+/* ── Gallery ── */
+.gallery-section { background:var(--black); padding:96px 0; overflow:hidden; }
+.gallery-header { text-align:center; margin-bottom:52px; }
+.gallery-header .eyebrow { justify-content:center; }
+.gallery-header h2 { font-size:clamp(1.8rem,3vw,2.6rem); font-weight:700; color:#fff; letter-spacing:-.03em; margin-bottom:10px; }
+.gallery-header p { font-size:0.9rem; color:rgba(255,255,255,.35); }
+.gallery-track-outer { overflow:hidden; }
+.nova-gallery-track { display:flex; gap:18px; animation:ngscroll 30s linear infinite; }
+.nova-gallery-track:hover { animation-play-state:paused; }
+.gallery-item { flex:0 0 480px; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,.06); box-shadow:0 6px 28px rgba(0,0,0,.35); }
+.gallery-item img { width:100%; display:block; }
+@keyframes ngscroll { from{transform:translateX(0);} to{transform:translateX(calc(-480px * 5 - 90px));} }
+
+/* ── CTA ── */
+.nova-cta { padding:100px 0; background:var(--black); position:relative; overflow:hidden; text-align:center; }
+.nova-cta::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(0,184,160,.06) 0%,transparent 70%); }
+.nova-cta-inner { position:relative; z-index:2; }
+.nova-cta h2 { font-size:clamp(2.2rem,4vw,3.2rem); font-weight:700; color:#fff; letter-spacing:-.03em; line-height:1.1; margin-bottom:16px; }
+.nova-cta h2 em { font-style:normal; color:var(--teal); }
+.nova-cta p { font-size:0.9375rem; color:rgba(255,255,255,.4); max-width:460px; margin:0 auto 36px; line-height:1.75; }
+.nova-cta-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+/* ── Responsive ── */
+@media(max-width:960px){
+  .nova-banner { padding:calc(var(--nav-h) + 52px) 0 52px; }
+  .nova-banner-inner,
+  .showcase-inner,
+  .showcase-inner.flip { grid-template-columns:1fr; direction:ltr; gap:32px; }
+  .showcase-inner.flip > div:first-child { order:0; }
+  .showcase-inner.flip > div:last-child  { order:1; }
+  .showcase { padding:56px 0; }
+  .gallery-section { padding:64px 0; }
+  .nova-cta { padding:64px 0; }
+  .feat-card { padding:28px 24px; }
+  .gallery-item { flex:0 0 320px; }
+  .nova-stats { flex-wrap:wrap; gap:24px; }
+  .nova-splash-outer { transform:none !important; order:-1; }
+  .feat-grid { grid-template-columns:1fr 1fr; }
+  .nova-banner-inner > div.nova-splash-col { display:none; }
+  .banner-actions .btn { min-height:48px; }
+}
+@media(max-width:600px){
+  .nova-banner { padding:calc(var(--nav-h) + 36px) 0 40px; }
+  .feat-grid { grid-template-columns:1fr; }
+  .nova-stats { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .gallery-item { flex:0 0 260px; }
+  .nova-cta h2 { font-size:clamp(1.6rem,7vw,2.2rem); }
+  .nova-banner h1 { font-size:clamp(2rem,8vw,2.8rem); }
+  .nova-sub { font-size:0.9rem; }
+  .banner-actions { flex-direction:column; align-items:stretch; }
+  .banner-actions .btn { width:100%; justify-content:center; }
+  .nova-cta-actions { flex-direction:column; align-items:center; }
+  .nova-cta-actions .btn { width:100%; max-width:320px; justify-content:center; }
+}
+</style>
+<link rel="canonical" href="/nova-ai"/>
+</head>
+<body>
+<canvas id="bg-geo"></canvas>
+<script>
+(function(){
+  const cv=document.getElementById('bg-geo'),cx=cv.getContext('2d');let W,H;
+  function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+  window.addEventListener('resize',resize);resize();
+  const shapes=Array.from({length:28},(_,i)=>({type:i%4,x:Math.random()*W,y:Math.random()*H,size:8+Math.random()*22,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,rot:Math.random()*Math.PI*2,vrot:(Math.random()-.5)*.004,alpha:.04+Math.random()*.07}));
+  function frame(){cx.clearRect(0,0,W,H);for(const s of shapes){cx.save();cx.translate(s.x,s.y);cx.rotate(s.rot);cx.strokeStyle=`rgba(0,184,160,${s.alpha})`;cx.lineWidth=0.7;if(s.type===0){cx.beginPath();cx.moveTo(0,-s.size);cx.lineTo(s.size*.866,s.size*.5);cx.lineTo(-s.size*.866,s.size*.5);cx.closePath();cx.stroke();}else if(s.type===1){cx.beginPath();cx.moveTo(-s.size*1.2,0);cx.lineTo(s.size*1.2,0);cx.stroke();}else if(s.type===2){cx.beginPath();cx.moveTo(0,-s.size);cx.lineTo(s.size*.6,0);cx.lineTo(0,s.size);cx.lineTo(-s.size*.6,0);cx.closePath();cx.stroke();}else{cx.beginPath();cx.moveTo(-s.size,0);cx.lineTo(s.size,0);cx.stroke();cx.beginPath();cx.moveTo(0,-s.size);cx.lineTo(0,s.size);cx.stroke();}cx.restore();s.x+=s.vx;s.y+=s.vy;s.rot+=s.vrot;if(s.x<-40)s.x=W+40;else if(s.x>W+40)s.x=-40;if(s.y<-40)s.y=H+40;else if(s.y>H+40)s.y=-40;}requestAnimationFrame(frame);}
+  frame();
+})();
+</script>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="/home" class="nav-logo"><img src="images/logo.png" alt="FSV Tech"/></a>
+    <ul class="nav-links">
+      <li><a href="/home" data-t="nav_home">Home</a></li>
+      <li><a href="/about" data-t="nav_about">About</a></li>
+      <li class="nav-has-dropdown">
+        <a href="/products" data-t="nav_products">Products</a>
+        <div class="nav-dropdown">
+          <div class="nav-dropdown-inner">
+            <a href="/products"><span class="nav-dropdown-dot"></span><span>Products Overview</span></a>
+            <a href="/partner-portal"><span class="nav-dropdown-dot"></span><span data-t="pp_nav_item">FSV Partner Portal</span></a>
+            <a href="/nova-ai"><span class="nav-dropdown-dot"></span><span>Nova AI</span></a>
+          </div>
+        </div>
+      </li>
+      <li><a href="/services" data-t="nav_services">Services</a></li>
+      <li><a href="/industries" data-t="nav_industries">Industries</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">عربي</button>
+      </div>
+      <a href="/contact" class="nav-cta" data-t="nav_cta">Get in Touch</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/home" data-t="nav_home">Home</a>
+  <a href="/about" data-t="nav_about">About</a>
+  <a href="/products" data-t="nav_products">Products</a>
+  <a href="/partner-portal" class="mob-sub" data-t="pp_nav_item">FSV Partner Portal</a>
+  <a href="/nova-ai" class="mob-sub">Nova AI</a>
+  <a href="/services" data-t="nav_services">Services</a>
+  <a href="/industries" data-t="nav_industries">Industries</a>
+  <a href="/contact" class="mob-cta" data-t="nav_cta">Get in Touch</a>
+  <div class="mobile-lang">
+    <button class="mob-lang-btn active" data-lang="en">English</button>
+    <button class="mob-lang-btn" data-lang="ar">عربي</button>
+  </div>
+</div>
+
+<!-- ── BANNER ── -->
+<section class="nova-banner" id="main-content">
+  <div class="nova-banner-grid"></div>
+  <div class="nova-banner-tex"></div>
+  <div class="wrap">
+    <div class="nova-banner-inner">
+
+      <!-- Left: copy -->
+      <div>
+        <div class="nova-badge"><span class="nova-badge-dot"></span><span data-t="nova_badge">Product · Nova AI</span></div>
+        <h1 data-t="nova_h1">Your local AI<br>coding <em>sandbox.</em></h1>
+        <p class="nova-sub" data-t="nova_sub">A fully local, privacy-first AI coding environment. Build complete apps, run a live terminal, and preview in real time — everything runs on your hardware. No internet required.</p>
+        <div class="banner-actions">
+          <a href="/contact?subject=Nova+AI+Demo" class="btn btn-teal"><span data-t="nova_cta1">Request a Demo</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          <a href="/contact" class="btn btn-hero-ghost"><span data-t="nova_cta2">Get in Touch</span></a>
+        </div>
+        <div class="nova-stats">
+          <div><div class="ns-n">100%</div><div class="ns-l" data-t="nova_stat1">Local &amp; Private</div></div>
+          <div><div class="ns-n">0</div><div class="ns-l" data-t="nova_stat2">Cloud Dependency</div></div>
+          <div><div class="ns-n">6</div><div class="ns-l" data-t="nova_stat3">AI Agent Roles</div></div>
+        </div>
+      </div>
+
+      <!-- Right: animated splash window — exact replica of splash.html -->
+      <div class="nova-splash-col fade">
+        <div class="nova-splash-outer">
+          <div class="splash-titlebar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="splash-body">
+            <div class="splash-logo-wrap">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="s-ring s-ring-outer" d="M24 3 L45 24 L24 45 L3 24 Z" stroke="#777" stroke-width="1.4" stroke-linejoin="round"/>
+                <path class="s-ring s-ring-mid"   d="M24 11 L37 24 L24 37 L11 24 Z" stroke="#555" stroke-width="1.1" stroke-linejoin="round"/>
+                <path class="s-ring s-ring-inner" d="M24 19 L29 24 L24 29 L19 24 Z" stroke="#444" stroke-width="0.9" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="splash-wordmark">Nova AI</div>
+            <div class="splash-status">Starting…</div>
+            <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Fully Local</span><span class="sep">·</span>
+    <span>Multi-Agent AI</span><span class="sep">·</span>
+    <span>Live Terminal</span><span class="sep">·</span>
+    <span>Real-Time Preview</span><span class="sep">·</span>
+    <span>Semantic Memory</span><span class="sep">·</span>
+    <span>No Cloud Required</span><span class="sep">·</span>
+    <span>Ollama Powered</span><span class="sep">·</span>
+    <span>Data Sovereignty</span><span class="sep">·</span>
+    <span>Fully Local</span><span class="sep">·</span>
+    <span>Multi-Agent AI</span><span class="sep">·</span>
+    <span>Live Terminal</span><span class="sep">·</span>
+    <span>Real-Time Preview</span><span class="sep">·</span>
+    <span>Semantic Memory</span><span class="sep">·</span>
+    <span>No Cloud Required</span><span class="sep">·</span>
+    <span>Ollama Powered</span><span class="sep">·</span>
+    <span>Data Sovereignty</span><span class="sep">·</span>
+  </div>
+</div>
+
+<!-- ── FEATURE CARDS ── -->
+<section class="section" style="background:#fff;">
+  <div class="wrap">
+    <div class="feat-intro fade">
+      <div class="eyebrow" data-t="nova_feat_ey">What's Inside Nova AI</div>
+      <h2 data-t="nova_feat_h">Everything you need to build. Nothing leaves your machine.</h2>
+      <p data-t="nova_feat_p">Six core capabilities working together — intelligent multi-agent planning, live terminal, real-time preview, and persistent memory — all running locally on your own hardware.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card fade">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+        <h3 data-t="nova_f1_h">Multi-Agent Routing</h3>
+        <p data-t="nova_f1_p">A Planner model breaks every request into steps and routes each to the right specialist — Coder, Scripter, Analyst, Writer, or General. Each agent uses the best model for its role.</p>
+      </div>
+      <div class="feat-card fade d1">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="15" rx="2"/><path d="M8 19v3M16 19v3M5 19h14"/><path d="M6 9l3 3-3 3M12 15h4"/></svg></div>
+        <h3 data-t="nova_f2_h">Live Terminal</h3>
+        <p data-t="nova_f2_p">A real shell runs alongside your chat. Install packages, execute scripts, run migrations, and see output immediately — Nova can also run commands autonomously to complete your task.</p>
+      </div>
+      <div class="feat-card fade d2">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3 data-t="nova_f3_h">Real-Time Preview</h3>
+        <p data-t="nova_f3_p">A built-in browser panel serves your app locally as it's built. React, HTML, Node.js — see the result immediately. No manual refresh, no separate browser required.</p>
+      </div>
+      <div class="feat-card fade">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg></div>
+        <h3 data-t="nova_f4_h">Full App Development</h3>
+        <p data-t="nova_f4_p">Scaffold complete projects from a single prompt — React apps, Flask APIs, Node.js services, dashboards. Nova writes working code, installs dependencies, and runs the project for you.</p>
+      </div>
+      <div class="feat-card fade d1">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <h3 data-t="nova_f5_h">Semantic Memory</h3>
+        <p data-t="nova_f5_p">Nova stores persistent memories using LanceDB vectors and SQLite. It searches your workspace files semantically — finding relevant context across sessions to give more accurate answers.</p>
+      </div>
+      <div class="feat-card fade d2">
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <h3 data-t="nova_f6_h">Fully Private — No Cloud</h3>
+        <p data-t="nova_f6_p">Zero outbound requests to AI providers. All inference runs locally via Ollama. No API keys, no telemetry, no data leaving your machine. Safe for regulated and confidential codebases.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SHOWCASE 1: The Interface ── -->
+<section class="showcase">
+  <div class="wrap"><div class="showcase-inner">
+    <div class="fade">
+      <div class="sc-eyebrow" data-t="nova_sc1_ey">The Interface</div>
+      <h2 data-t="nova_sc1_h">A <em>complete workspace.</em> One window.</h2>
+      <p data-t="nova_sc1_p">Nova gives you everything in one place. Chat on the left, files and artifacts in the right panel — with Artifacts, Files, Preview, and Terminal all one click away. No setup, no configuration.</p>
+      <ul class="sc-bullets">
+        <li data-t="nova_sc1_b1">Prompt suggestions to get started fast</li>
+        <li data-t="nova_sc1_b2">Inline tool steps show every file write and command executed</li>
+        <li data-t="nova_sc1_b3">Model badge shows which AI agent generated each response</li>
+        <li data-t="nova_sc1_b4">Switch models mid-conversation without losing context</li>
+      </ul>
+    </div>
+    <div class="fade d1">
+      <div class="sc-frame"><img src="images/nova-ai-main.png" alt="Nova AI main interface"/></div>
+      <span class="sc-label">Nova AI · Main Interface</span>
+    </div>
+  </div></div>
+</section>
+
+<!-- ── SHOWCASE 2: Building in Action ── -->
+<section class="showcase alt">
+  <div class="wrap"><div class="showcase-inner flip">
+    <div class="fade">
+      <div class="sc-eyebrow" data-t="nova_sc2_ey">Building in Action</div>
+      <h2 data-t="nova_sc2_h">Scaffold a full app. <em>From one prompt.</em></h2>
+      <p data-t="nova_sc2_p">Ask Nova to build a dashboard, a REST API, a scraper — and it plans the work, writes every file, installs dependencies, and serves a live preview. You watch it happen step by step.</p>
+      <ul class="sc-bullets">
+        <li data-t="nova_sc2_b1">Writes complete files — no truncated placeholders or stubs</li>
+        <li data-t="nova_sc2_b2">Runs npm install and pip install automatically</li>
+        <li data-t="nova_sc2_b3">Starts a local server and opens it in the Preview panel</li>
+        <li data-t="nova_sc2_b4">Save as a named project to pick up where you left off</li>
+      </ul>
+    </div>
+    <div class="fade d1">
+      <div class="sc-frame"><img src="images/nova-ai-1.png" alt="Nova AI building a data analytics dashboard"/></div>
+      <span class="sc-label">Nova AI · Building a Data Analytics Dashboard</span>
+    </div>
+  </div></div>
+</section>
+
+<!-- ── SHOWCASE 3: Artifacts & Files (dark) ── -->
+<section class="showcase dark-bg">
+  <div class="wrap"><div class="showcase-inner">
+    <div class="fade">
+      <div class="sc-eyebrow" data-t="nova_sc3_ey">Artifacts &amp; Files</div>
+      <h2 data-t="nova_sc3_h">Your code. <em>Organised.</em></h2>
+      <p data-t="nova_sc3_p">Every file Nova writes appears in the Artifacts panel instantly. Switch to Files to browse your workspace directory, or View to read the raw source. Download the whole project as a zip in one click.</p>
+      <ul class="sc-bullets">
+        <li data-t="nova_sc3_b1">Artifacts panel lists every generated file with syntax preview</li>
+        <li data-t="nova_sc3_b2">View, Copy, or open any file directly from the panel</li>
+        <li data-t="nova_sc3_b3">Full workspace directory browser with file tree</li>
+        <li data-t="nova_sc3_b4">Download the entire project as a zip from the toolbar</li>
+      </ul>
+    </div>
+    <div class="fade d1">
+      <div class="sc-frame"><img src="images/nova-ai-4.png" alt="Nova AI artifacts and files panel"/></div>
+      <span class="sc-label">Nova AI · Artifacts &amp; Files Panel</span>
+    </div>
+  </div></div>
+</section>
+
+<!-- ── SHOWCASE 4: Live Preview ── -->
+<section class="showcase alt">
+  <div class="wrap"><div class="showcase-inner flip">
+    <div class="fade">
+      <div class="sc-eyebrow" data-t="nova_sc4_ey">Live Preview</div>
+      <h2 data-t="nova_sc4_h">See it running. <em>Instantly.</em></h2>
+      <p data-t="nova_sc4_p">The Preview panel serves your app locally as soon as Nova finishes building it. No switching to a browser, no manual refresh — a live, interactive window right inside the app.</p>
+      <ul class="sc-bullets">
+        <li data-t="nova_sc4_b1">Serves static sites, React apps, and Node.js backends locally</li>
+        <li data-t="nova_sc4_b2">URL bar shows the local address for external browser access</li>
+        <li data-t="nova_sc4_b3">Stop and restart the server from the toolbar at any time</li>
+        <li data-t="nova_sc4_b4">Preview updates as Nova edits and saves files mid-task</li>
+      </ul>
+    </div>
+    <div class="fade d1">
+      <div class="sc-frame"><img src="images/nova-ai-2.png" alt="Nova AI live preview panel"/></div>
+      <span class="sc-label">Nova AI · Live Preview Panel</span>
+    </div>
+  </div></div>
+</section>
+
+<!-- ── SHOWCASE 5: Command Palette ── -->
+<section class="showcase">
+  <div class="wrap"><div class="showcase-inner">
+    <div class="fade">
+      <div class="sc-eyebrow" data-t="nova_sc5_ey">Command Palette</div>
+      <h2 data-t="nova_sc5_h">Everything at your <em>fingertips.</em></h2>
+      <p data-t="nova_sc5_p">Press Ctrl+K from anywhere in the app. Jump to a new chat, toggle the sidebar, search your conversation history, or focus the input — without taking your hands off the keyboard.</p>
+      <ul class="sc-bullets">
+        <li data-t="nova_sc5_b1">Ctrl+K opens instantly from anywhere in the interface</li>
+        <li data-t="nova_sc5_b2">Navigate with arrow keys, run with Enter, close with Esc</li>
+        <li data-t="nova_sc5_b3">Search history finds messages across all past conversations</li>
+        <li data-t="nova_sc5_b4">Toggle sidebar and panel layout without the mouse</li>
+      </ul>
+    </div>
+    <div class="fade d1">
+      <div class="sc-frame"><img src="images/nova-ai-commands.png" alt="Nova AI command palette"/></div>
+      <span class="sc-label">Nova AI · Command Palette</span>
+    </div>
+  </div></div>
+</section>
+
+<!-- ── SHOWCASE 6: Settings ── -->
+<section class="showcase alt">
+  <div class="wrap"><div class="showcase-inner flip">
+    <div class="fade">
+      <div class="sc-eyebrow" data-t="nova_sc6_ey">Settings &amp; Configuration</div>
+      <h2 data-t="nova_sc6_h">Fine-tune everything. <em>Your way.</em></h2>
+      <p data-t="nova_sc6_p">Nova's settings panel puts full control in your hands — choose your models, tweak generation parameters, configure multi-model routing, manage tools, and customise the interface down to the accent colour.</p>
+      <ul class="sc-bullets">
+        <li data-t="nova_sc6_b1">Swap or pull any Ollama model without leaving the app</li>
+        <li data-t="nova_sc6_b2">Adjust temperature, Top-P, Top-K, and token limits per session</li>
+        <li data-t="nova_sc6_b3">Route tasks to specialist models — Coder, Scripter, Analyst, Writer</li>
+        <li data-t="nova_sc6_b4">Control tool approval: Auto, Approve, or Disabled per tool</li>
+        <li data-t="nova_sc6_b5">Six built-in themes with custom accent colours and font sizes</li>
+        <li data-t="nova_sc6_b6">Configure vector embeddings and memory database paths</li>
+      </ul>
+    </div>
+    <div class="fade d1">
+      <div class="sc-frame"><img src="images/nova-ai-settings-model.png" alt="Nova AI model settings panel"/></div>
+      <span class="sc-label">Nova AI · Model Settings</span>
+    </div>
+  </div></div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section class="gallery-section">
+  <div class="wrap">
+    <div class="gallery-header fade">
+      <div class="eyebrow" data-t="nova_gallery_ey">Full Interface Tour</div>
+      <h2 data-t="nova_gallery_h">Every screen. One sandbox.</h2>
+      <p data-t="nova_gallery_p">Hover to pause. Every panel shown exactly as it ships.</p>
+    </div>
+  </div>
+  <div class="gallery-track-outer">
+    <div class="nova-gallery-track">
+      <div class="gallery-item"><img src="images/nova-ai-main.png" alt="Main Interface"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-1.png" alt="Building in Action"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-2.png" alt="Live Preview"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-4.png" alt="Artifacts Panel"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-commands.png" alt="Command Palette"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-model.png" alt="Model Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-generation.png" alt="Generation Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-routing.png" alt="Model Routing"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-tools.png" alt="Tools Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-embeddings.png" alt="Embeddings Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-appearance.png" alt="Appearance Settings"/></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="gallery-item"><img src="images/nova-ai-main.png" alt="Main Interface"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-1.png" alt="Building in Action"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-2.png" alt="Live Preview"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-4.png" alt="Artifacts Panel"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-commands.png" alt="Command Palette"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-model.png" alt="Model Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-generation.png" alt="Generation Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-routing.png" alt="Model Routing"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-tools.png" alt="Tools Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-embeddings.png" alt="Embeddings Settings"/></div>
+      <div class="gallery-item"><img src="images/nova-ai-settings-appearance.png" alt="Appearance Settings"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="nova-cta">
+  <div class="wrap">
+    <div class="nova-cta-inner fade">
+      <h2 data-t="nova_cta_h">Ready to build with <em>full privacy?</em></h2>
+      <p data-t="nova_cta_p">Get in touch to request a demo or ask about licensing Nova AI for your team or organisation.</p>
+      <div class="nova-cta-actions">
+        <a href="/contact?subject=Nova+AI+Demo" class="btn btn-teal"><span data-t="nova_cta1">Request a Demo</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a href="/contact" class="btn btn-hero-ghost"><span data-t="nova_cta2">Get in Touch</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><img src="images/logo.png" alt="FSV Tech"/><p><span data-t="footer_tagline">Enterprise AI consultancy and sovereign technology solutions for Qatar's public and private sectors.</span></p></div>
+    <div class="footer-col"><h5 data-t="footer_col1_h">Company</h5><ul><li><a href="/about" data-t="nav_about">About</a></li><li><a href="/services" data-t="nav_services">Services</a></li><li><a href="/industries" data-t="nav_industries">Industries</a></li><li><a href="/contact" data-t="nav_contact">Contact</a></li></ul></div>
+    <div class="footer-col footer-nav-col"><h5 data-t="footer_col2_h">Products</h5><ul><li><a href="/partner-portal" data-t="pp_nav_item">FSV Partner Portal</a></li><li><a href="/nova-ai">Nova AI</a></li></ul></div>
+    <div class="footer-col"><h5 data-t="footer_col3_h">Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#4a23242c250a2c393c673e2f292264292527" data-t="con_mail_v"><span class="__cf_email__" data-cfemail="aac3c4ccc5eaccd9dc87decfc9c284c9c5c7">[email&#160;protected]</span></a></li><li><span data-t="footer_location">Doha, Qatar</span></li><li><a href="/contact" data-t="footer_msg">Send a Message</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span data-t="footer_copy">&#169; 2026 FSV Tech Consulting &amp; Services.</span>
+    <a href="/signin" style="font-size:0.72rem;color:rgba(255,255,255,0.18);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,0.45)'" onmouseout="this.style.color='rgba(255,255,255,0.18)'">Employee Sign In</a>
+    <div class="qatar-mark"><span class="qatar-pip"></span><span data-t="footer_location">Doha, Qatar</span></div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>
